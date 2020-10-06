@@ -1,0 +1,36 @@
+{
+    // Code runner 
+    "code-runner.executorMap": {
+        "cpp": "cd $dir && g++ -std=c++14 -w -O2 $fileName -o A.exe && ./A.exe < input.txt",
+        //"cpp": "cd $dir && g++ $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
+        "python": "cd $dir && python $fileName",
+        //"cpp": "make run_local"
+    },
+    "code-runner.clearPreviousOutput": true,
+    "code-runner.ignoreSelection": true,
+    "code-runner.runInTerminal": true,
+    "code-runner.saveAllFilesBeforeRun": true,
+    
+    "editor.parameterHints.enabled": false,
+    "editor.quickSuggestions": false,
+    "editor.suggestOnTriggerCharacters": false,
+    "editor.wordBasedSuggestions": false,
+    "editor.quickSuggestionsDelay": 1000000,
+
+    "editor.renderLineHighlight": "none",
+
+    "editor.fontSize": 15,
+    "terminal.integrated.fontSize": 15,
+    "editor.autoClosingBrackets": "never",
+    "workbench.colorTheme": "Monokai Classic",
+    "C_Cpp.updateChannel": "Insiders",
+    "editor.comments.insertSpace": false,
+    "workbench.iconTheme": "Monokai Classic Icons",
+    "C_Cpp.autoAddFileAssociations": false,
+    "launch": {
+
+
+        "configurations": [],
+        "compounds": []
+    }
+}
