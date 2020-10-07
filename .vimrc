@@ -17,14 +17,15 @@ Plugin 'scrooloose/syntastic'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'nanotech/jellybeans.vim'
 Plugin 'altercation/vim-colors-solarized'
+Plugin 'flazz/vim-colorschemes'
 call vundle#end()
 
-colorscheme jellybeans
+colorscheme molokai
 
 "NERDTree ON 단축키를 "\nt"로 설정
 map <Leader>nt <ESC>:NERDTree<CR>
 let NERDTreeShowHidden=1
-" let NERDTreeQuitOnOpen=1
+let NERDTreeQuitOnOpen=1
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\.git$\|vendor$',
     \ 'file': '\v\.(exe|so|dll)$'
