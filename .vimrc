@@ -12,6 +12,8 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'flazz/vim-colorschemes'
 Plugin 'w0rp/ale'
+"Plugin 'valloric/youcompleteme'
+Plugin 'jlanzarotta/bufexplorer'
 call vundle#end()
 
 " colors
@@ -23,7 +25,8 @@ syntax enable
 " tab
 set tabstop=4
 set softtabstop=4
-set expandtab
+set shiftwidth=4
+"set expandtab
 
 " ui configs
 set number
@@ -45,14 +48,26 @@ set termencoding=utf-8
 " mouse config
 set mouse=a
 
-" for vim-airline
-let g:airline#extensions#tabline#enabled = 1 " turn on buffer list
-let g:airline_theme='fruit_punch'
+" for vim-lightline
+set noshowmode
 set laststatus=2 " turn on bottom bar
+let g:airline#extensions#tabline#enabled = 1 " turn on buffer list
+let g:airline_theme='badwolf'
+
+" tmux color
+set term=screen-256color
+
+" buffer setup
+set hidden
+set autowrite
+
+" Key Mappings
+
+" Buffers - next/previous:ctrl-k / ctrl-k
+nnoremap <silent> <C-k> :bn<CR>
+nnoremap <silent> <C-j> :bp<CR>
 
 " for nerdtree
 map <C-n> :NERDTreeToggle<CR>
 
-" key mappings
-map <C-Tab> :bn
-map <C-S-Tab> :bp
+
