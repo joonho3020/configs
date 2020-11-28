@@ -27,3 +27,7 @@ Temporary Items
 
 # ipynb checkpoints
 .ipynb_checkpoints/
+
+# tags & TAGS by vim
+TAGS
+tags
