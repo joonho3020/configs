@@ -15,10 +15,12 @@ Plugin 'w0rp/ale'
 Plugin 'valloric/youcompleteme'
 Plugin 'jlanzarotta/bufexplorer'
 Plugin 'universal-ctags/ctags'
+Plugin 'morhetz/gruvbox'
 call vundle#end()
 
 " colors
-colorscheme badwolf
+set background=dark
+colorscheme gruvbox
 
 " syntax
 syntax enable
