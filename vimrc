@@ -1,44 +1,60 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 
 call vundle#begin()
-" vundle for plugin manager
+" VUNDLE FOR PLUGIN MANAGER
 Plugin 'VundleVim/Vundle.vim'
 
-" gui related plugins
+" GUI RELATED PLUGINS
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'scrooloose/nerdtree'
+Plugin 'philrunninger/nerdtree-visual-selection'
+    "usage : o(open), i(open horizontal), s(open vert), dd(delete)
 Plugin 'ctrlpvim/ctrlp.vim'
 
-" git gui
+" GIT GUI
 Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-fugitive'
 Plugin 'xuyuanp/nerdtree-git-plugin'
 
+" FOR COMMENTING
+Plugin 'chrisbra/vim-commentary' 
+    "usage : gcc (comment single line) gc+action(e.g. gcap)
 
-
-" color schemes
+" COLOR SCHEMES
 Plugin 'flazz/vim-colorschemes'
 Plugin 'morhetz/gruvbox'
 
-" syntatic language support
+" SYNTATIC LANGUAGE SUPPORT
 Plugin 'w0rp/ale'
 
-" auto complete
-Plugin 'valloric/youcompleteme'
+" highlighting
+Plugin 'yggdroot/indentline'
+Plugin 'andymass/vim-matchup'
+Plugin 'machakann/vim-highlightedyank'
 
-" goto definition
+" AUTO COMPLETE
+Plugin 'valloric/youcompleteme'
+Plugin 'CmdlineComplete'
+
+
+" JUMPING TO DEFINITION
 Plugin 'jlanzarotta/bufexplorer'
 Plugin 'universal-ctags/ctags'
+
 call vundle#end()
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " colors
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set background=dark
+set background=dark 
 colorscheme gruvbox
 
 " syntax
@@ -58,6 +74,7 @@ set relativenumber     " show relative numbering
 set showcmd            " show command on bottom bar
 set cursorline         " highlight current line
 set showmatch          " show matching [{()}]
+set wildmenu           " autocomplete for command line
 set updatetime=100     " some plugins require fast update time
 set ttyfast            " Improve redrawing
 set mouse+=a           " mouse support - necessary evil
@@ -75,8 +92,8 @@ set smartcase          " but make it case sensitive if an uppercase in entered
 
 
 " for vim-airline
-set noshowmode
-set laststatus=2 " turn on bottom bar
+set noshowmode         " no show mode for default
+set laststatus=2       " turn on bottom bar
 let g:airline#extensions#tabline#enabled = 1 " turn on buffer list
 let g:airline_theme='badwolf'
 
@@ -85,8 +102,8 @@ let g:airline_theme='badwolf'
 set term=screen-256color
 
 " buffer setup
-set hidden
-set autowrite
+set hidden             " hide buffer
+set autowrite          " for buffer autowrite
 
 " code folding
 set foldmethod=manual
@@ -123,6 +140,27 @@ autocmd BufWritePost *.cpp,*.h,*.c call UpdateTags()
 nnoremap <silent> <C-k> :bn<CR>
 nnoremap <silent> <C-j> :bp<CR>
 
+" Search results centered please
+nnoremap <silent> n nzz
+nnoremap <silent> N Nzz
+nnoremap <silent> * *zz
+nnoremap <silent> # #zz
+nnoremap <silent> g* g*zz
+nnoremap <C-o> <C-o>zz
+nnoremap <C-i> <C-i>zz
+
 " for nerdtree
 map <C-n> :NERDTreeToggle<CR>
 
+" Leader
+let mapleader=" "       " leader is space
+
+"  y d p P   --  Quick copy paste into system clipboard
+nmap <Leader>y "+y
+nmap <Leader>d "+d
+vmap <Leader>y "+y
+vmap <Leader>d "+d
+nmap <Leader>p "+p
+nmap <Leader>P "+P
+vmap <Leader>p "+p
+vmap <Leader>P "+P
