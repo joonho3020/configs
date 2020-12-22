@@ -3,59 +3,81 @@ filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
+
 call vundle#begin()
+" vundle for plugin manager
 Plugin 'VundleVim/Vundle.vim'
+
+" gui related plugins
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'scrooloose/nerdtree'
-Plugin 'airblade/vim-gitgutter'
 Plugin 'ctrlpvim/ctrlp.vim'
+
+" git gui
+Plugin 'airblade/vim-gitgutter'
+Plugin 'tpope/vim-fugitive'
+Plugin 'xuyuanp/nerdtree-git-plugin'
+
+" color schemes
 Plugin 'flazz/vim-colorschemes'
+Plugin 'morhetz/gruvbox'
+
+" syntatic language support
 Plugin 'w0rp/ale'
+
+" auto complete
 Plugin 'valloric/youcompleteme'
+
+" goto definition
 Plugin 'jlanzarotta/bufexplorer'
 Plugin 'universal-ctags/ctags'
-Plugin 'morhetz/gruvbox'
 call vundle#end()
 
 " colors
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set background=dark
 colorscheme gruvbox
 
 " syntax
 syntax enable
 
-" tab
+" tabs and spaces
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
-"set expandtab
+set expandtab
 
 " ui configs
-set number
-set showcmd
-set cursorline
-set lazyredraw
-set showmatch
-filetype indent on
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set number             " show line numbers
+set relativenumber     " show relative numbering
+set showcmd            " show command on bottom bar
+set cursorline         " highlight current line
+set showmatch          " show matching [{()}]
+set updatetime=100     " some plugins require fast update time
+set ttyfast            " Improve redrawing
+set mouse+=a           " mouse support - necessary evil
+set encoding=utf-8     " set korean incodings
+set termencoding=utf-8 " set korean incodings
+filetype indent on     " load filetype-specific indent files
+filetype plugin on     " load filetype-specific plugin files
 
 " search options
-set incsearch
-set hlsearch
-set ignorecase
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set incsearch          " search as characters are entered
+set hlsearch           " highlight matches
+set ignorecase         " ignore case
+set smartcase          " but make it case sensitive if an uppercase in entered
 
-" set korean incodings
-set encoding=utf-8
-set termencoding=utf-8
 
-" mouse config
-set mouse=a
-
-" for vim-lightline
+" for vim-airline
 set noshowmode
 set laststatus=2 " turn on bottom bar
 let g:airline#extensions#tabline#enabled = 1 " turn on buffer list
 let g:airline_theme='badwolf'
+
 
 " tmux color
 set term=screen-256color
@@ -95,11 +117,10 @@ autocmd BufWritePost *.cpp,*.h,*.c call UpdateTags()
 
 " -------------------------- Key Mappings ---------------------------
 
-" Buffers - next/previous:ctrl-k / ctrl-k
+" Buffers - next/previous : ctrl-k / ctrl-k
 nnoremap <silent> <C-k> :bn<CR>
 nnoremap <silent> <C-j> :bp<CR>
 
 " for nerdtree
 map <C-n> :NERDTreeToggle<CR>
-
 
