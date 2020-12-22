@@ -17,6 +17,7 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'philrunninger/nerdtree-visual-selection'
     "usage : o(open), i(open horizontal), s(open vert), dd(delete)
 Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'junegunn/vim-slash'
 
 " GIT GUI
 Plugin 'airblade/vim-gitgutter'
