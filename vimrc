@@ -14,17 +14,16 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'scrooloose/nerdtree'
-Plugin 'philrunninger/nerdtree-visual-selection'
-    "usage : o(open), i(open horizontal), s(open vert), dd(delete)
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'junegunn/vim-slash'
+Plugin 'severin-lemaignan/vim-minimap'
 
-" GIT GUI
+"" GIT GUI
 Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-fugitive'
-Plugin 'xuyuanp/nerdtree-git-plugin'
+"Plugin 'xuyuanp/nerdtree-git-plugin' "incompatible issues in centos 8??
 
-" FOR COMMENTING
+""" FOR COMMENTING
 Plugin 'chrisbra/vim-commentary' 
     "usage : gcc (comment single line) gc+action(e.g. gcap)
 
@@ -41,13 +40,19 @@ Plugin 'andymass/vim-matchup'
 Plugin 'machakann/vim-highlightedyank'
 
 " AUTO COMPLETE
-Plugin 'valloric/youcompleteme'
+" Plugin 'valloric/youcompleteme'
 Plugin 'CmdlineComplete'
 
 
 " JUMPING TO DEFINITION
 Plugin 'jlanzarotta/bufexplorer'
 Plugin 'universal-ctags/ctags'
+
+" PLUGIN FOR SCALA
+Plugin 'derekwyatt/vim-scala'
+
+" PLUGIN FOR GO
+Plugin 'fatih/vim-go'
 
 call vundle#end()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -63,10 +68,14 @@ syntax enable
 
 " tabs and spaces
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
 set expandtab
+
+" backspace to prev line
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set backspace=indent,eol,start
 
 " ui configs
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -84,6 +93,7 @@ set termencoding=utf-8 " set korean incodings
 filetype indent on     " load filetype-specific indent files
 filetype plugin on     " load filetype-specific plugin files
 
+
 " search options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set incsearch          " search as characters are entered
@@ -93,24 +103,44 @@ set smartcase          " but make it case sensitive if an uppercase in entered
 
 
 " for vim-airline
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set noshowmode         " no show mode for default
 set laststatus=2       " turn on bottom bar
 let g:airline#extensions#tabline#enabled = 1 " turn on buffer list
 let g:airline_theme='badwolf'
 
+" for indentLine
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:indentLine_color_term = 243
+let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 
 " tmux color
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set term=screen-256color
 
+
 " buffer setup
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set hidden             " hide buffer
 set autowrite          " for buffer autowrite
 
+
 " code folding
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set foldmethod=manual
 
+
 " ctags (jumping to def)
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set tags=tags
+
+" minimap visual
+let g:minimap_highlight='Visual'
+
+" highlighted yank config for older vim
+if !exists('##TextYankPost')
+    map y <Plug>(highlightedyank)
+endif
 
 " auto update ctags when a file is written
 function! DelTagOfFile(file)
@@ -133,13 +163,14 @@ function! UpdateTags()
 endfunction
 
 autocmd BufWritePost *.cpp,*.h,*.c call UpdateTags()
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
 " -------------------------- Key Mappings ---------------------------
 
 " Buffers - next/previous : ctrl-k / ctrl-k
-nnoremap <silent> <C-k> :bn<CR>
-nnoremap <silent> <C-j> :bp<CR>
+nnoremap <silent> <C-l> :bn<CR>
+nnoremap <silent> <C-h> :bp<CR>
 
 " Search results centered please
 nnoremap <silent> n nzz
@@ -149,6 +180,10 @@ nnoremap <silent> # #zz
 nnoremap <silent> g* g*zz
 nnoremap <C-o> <C-o>zz
 nnoremap <C-i> <C-i>zz
+
+" faster Scroll
+nnoremap <C-e> 10<C-e>
+nnoremap <C-y> 10<C-y>
 
 " for nerdtree
 map <C-n> :NERDTreeToggle<CR>
@@ -165,3 +200,6 @@ nmap <Leader>p "+p
 nmap <Leader>P "+P
 vmap <Leader>p "+p
 vmap <Leader>P "+P
+
+" for minimap toggle
+let g:minimap_toggle='<leader>mt'
