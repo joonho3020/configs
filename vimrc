@@ -34,25 +34,32 @@ Plugin 'morhetz/gruvbox'
 " SYNTATIC LANGUAGE SUPPORT
 Plugin 'w0rp/ale'
 
-" highlighting
+" HIGHLIGHTING
 Plugin 'yggdroot/indentline'
 Plugin 'andymass/vim-matchup'
 Plugin 'machakann/vim-highlightedyank'
 
 " AUTO COMPLETE
 " Plugin 'valloric/youcompleteme'
+Plugin 'valloric/youcompleteme'
+    " need compiling (look up official repo for more info)
 Plugin 'CmdlineComplete'
-
 
 " JUMPING TO DEFINITION
 Plugin 'jlanzarotta/bufexplorer'
 Plugin 'universal-ctags/ctags'
 
 " PLUGIN FOR SCALA
-Plugin 'derekwyatt/vim-scala'
+" Plugin 'derekwyatt/vim-scala'
 
 " PLUGIN FOR GO
-Plugin 'fatih/vim-go'
+" Plugin 'fatih/vim-go'
+"
+" JUPYTER-VIM
+Plugin 'jupyter-vim/jupyter-vim'
+
+" MARKDOWN PREVIEW
+Plugin 'JamshedVesuna/vim-markdown-preview'
 
 call vundle#end()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -165,7 +172,39 @@ endfunction
 autocmd BufWritePost *.cpp,*.h,*.c call UpdateTags()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" tag for golang
+let g:tagbar_type_go = {
+    \ 'ctagstype' : 'go',
+    \ 'kinds'     : [
+        \ 'p:package',
+        \ 'i:imports:1',
+        \ 'c:constants',
+        \ 'v:variables',
+        \ 't:types',
+        \ 'n:interfaces',
+        \ 'w:fields',
+        \ 'e:embedded',
+        \ 'm:methods',
+        \ 'r:constructor',
+        \ 'f:functions'
+    \ ],
+    \ 'sro' : '.',
+    \ 'kind2scope' : {
+        \ 't' : 'ctype',
+        \ 'n' : 'ntype'
+    \ },
+    \ 'scope2kind' : {
+        \ 'ctype' : 't',
+        \ 'ntype' : 'n'
+    \ },
+    \ 'ctagsbin'  : 'gotags',
+    \ 'ctagsargs' : '-sort -silent'
+    \ }
 
+" markdown preview
+let vim_markdown_preview_toggle=1
+let vim_markdown_preview_hotkey='<C-m>'
+let vim_markdown_preview_browser='Safari'
 " -------------------------- Key Mappings ---------------------------
 
 " Buffers - next/previous : ctrl-k / ctrl-k
