@@ -14,6 +14,7 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'scrooloose/nerdtree'
+Plugin 'PhilRunninger/nerdtree-visual-selection'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'junegunn/vim-slash'
 Plugin 'severin-lemaignan/vim-minimap'
@@ -30,11 +31,12 @@ Plugin 'chrisbra/vim-commentary'
 " COLOR SCHEMES
 Plugin 'flazz/vim-colorschemes'
 Plugin 'morhetz/gruvbox'
+Plugin 'yorickpeterse/happy_hacking'
 
 " SYNTATIC LANGUAGE SUPPORT
 Plugin 'w0rp/ale'
 
-" highlighting
+" HIGHLIGHTING
 Plugin 'yggdroot/indentline'
 Plugin 'andymass/vim-matchup'
 Plugin 'machakann/vim-highlightedyank'
@@ -43,11 +45,14 @@ Plugin 'machakann/vim-highlightedyank'
 " Plugin 'valloric/youcompleteme'
 Plugin 'CmdlineComplete'
 
-
 " JUMPING TO DEFINITION
 Plugin 'jlanzarotta/bufexplorer'
 Plugin 'universal-ctags/ctags'
 
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" LANGUAGE SPECIFIC PLUGINS
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " PLUGIN FOR SCALA
 Plugin 'derekwyatt/vim-scala'
 
@@ -90,8 +95,9 @@ set ttyfast            " Improve redrawing
 set mouse+=a           " mouse support - necessary evil
 set encoding=utf-8     " set korean incodings
 set termencoding=utf-8 " set korean incodings
-set ttimeout           " key press time out
-set ttimeoutlen=50     " is 50 ms
+set ttimeout           " faster esc
+set ttimeoutlen=50     " faster esc 50ms
+set clipboard=unnamedplus
 filetype indent on     " load filetype-specific indent files
 filetype plugin on     " load filetype-specific plugin files
 
@@ -130,6 +136,11 @@ set autowrite          " for buffer autowrite
 " code folding
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set foldmethod=manual
+
+" better view for nerdtree
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let NERDTreeIgnore =['\.o$']
+let NERDTreeSortOrder=['\.c$']
 
 
 " ctags (jumping to def)
