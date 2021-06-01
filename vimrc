@@ -26,15 +26,16 @@ Plugin 'tpope/vim-fugitive'
 
 """ FOR COMMENTING
 Plugin 'chrisbra/vim-commentary' 
-    "usage : gcc (comment single line) gc+action(e.g. gcap)
+Plugin 'sakshamgupta05/vim-todo-highlight'
+
 
 " COLOR SCHEMES
 Plugin 'flazz/vim-colorschemes'
 Plugin 'morhetz/gruvbox'
-Plugin 'yorickpeterse/happy_hacking'
 
 " SYNTATIC LANGUAGE SUPPORT
 Plugin 'w0rp/ale'
+Plugin 'natebosch/vim-lsc'
 
 " HIGHLIGHTING
 Plugin 'yggdroot/indentline'
@@ -42,13 +43,18 @@ Plugin 'andymass/vim-matchup'
 Plugin 'machakann/vim-highlightedyank'
 
 " AUTO COMPLETE
-" Plugin 'valloric/youcompleteme'
 Plugin 'CmdlineComplete'
+Plugin 'ycm-core/YouCompleteMe'
+
+" DEBUGGING
+" Plugin 'vim-scripts/Conque-GDB'
 
 " JUMPING TO DEFINITION
 Plugin 'jlanzarotta/bufexplorer'
 Plugin 'universal-ctags/ctags'
 
+" USING THE SYSTEM CLIPBOARD
+Plugin 'christoomey/vim-system-copy'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " LANGUAGE SPECIFIC PLUGINS
@@ -101,14 +107,12 @@ set clipboard=unnamedplus
 filetype indent on     " load filetype-specific indent files
 filetype plugin on     " load filetype-specific plugin files
 
-
 " search options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set incsearch          " search as characters are entered
 set hlsearch           " highlight matches
 set ignorecase         " ignore case
 set smartcase          " but make it case sensitive if an uppercase in entered
-
 
 " for vim-airline
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -126,12 +130,10 @@ let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set term=screen-256color
 
-
 " buffer setup
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set hidden             " hide buffer
 set autowrite          " for buffer autowrite
-
 
 " code folding
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -143,17 +145,35 @@ let NERDTreeIgnore =['\.o$']
 let NERDTreeSortOrder=['\.c$']
 
 
-" ctags (jumping to def)
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set tags=tags
 
 " minimap visual
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:minimap_highlight='Visual'
 
 " highlighted yank config for older vim
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if !exists('##TextYankPost')
     map y <Plug>(highlightedyank)
 endif
+
+" add keywords like TODO, FIXME ...
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! UpdateTodoKeywords(...)
+  let newKeywords = join(a:000, " ")
+  let synTodo = map(filter(split(execute("syntax list"), '\n') , { i,v -> match(v, '^\w*Todo\>') == 0}), {i,v -> substitute(v, ' .*$', '', '')})
+  for synGrp in synTodo
+    execute "syntax keyword " . synGrp . " contained " . newKeywords
+  endfor
+endfunction
+
+augroup now
+  autocmd!
+  autocmd Syntax * call UpdateTodoKeywords("NOTE", "HACK")
+augroup END
+
+" ctags (jumping to def)
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set tags=tags
 
 " auto update ctags when a file is written
 function! DelTagOfFile(file)
