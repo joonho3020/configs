@@ -26,8 +26,6 @@ Plugin 'tpope/vim-fugitive'
 
 """ FOR COMMENTING
 Plugin 'chrisbra/vim-commentary' 
-Plugin 'sakshamgupta05/vim-todo-highlight'
-
 
 " COLOR SCHEMES
 Plugin 'flazz/vim-colorschemes'
