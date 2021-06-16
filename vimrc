@@ -17,7 +17,7 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'PhilRunninger/nerdtree-visual-selection'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'junegunn/vim-slash'
-Plugin 'severin-lemaignan/vim-minimap'
+Plugin 'szw/vim-maximizer'
 
 "" GIT GUI
 Plugin 'airblade/vim-gitgutter'
@@ -26,6 +26,7 @@ Plugin 'tpope/vim-fugitive'
 
 """ FOR COMMENTING
 Plugin 'chrisbra/vim-commentary' 
+Plugin 'sakshamgupta05/vim-todo-highlight'
 
 " COLOR SCHEMES
 Plugin 'flazz/vim-colorschemes'
@@ -44,15 +45,16 @@ Plugin 'machakann/vim-highlightedyank'
 Plugin 'CmdlineComplete'
 Plugin 'ycm-core/YouCompleteMe'
 
-" DEBUGGING
-" Plugin 'vim-scripts/Conque-GDB'
-
 " JUMPING TO DEFINITION
 Plugin 'jlanzarotta/bufexplorer'
 Plugin 'universal-ctags/ctags'
 
 " USING THE SYSTEM CLIPBOARD
 Plugin 'christoomey/vim-system-copy'
+
+" DEBUG
+Plugin 'puremourning/vimspector' "I really should work on setting this up
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " LANGUAGE SPECIFIC PLUGINS
@@ -117,7 +119,7 @@ set smartcase          " but make it case sensitive if an uppercase in entered
 set noshowmode         " no show mode for default
 set laststatus=2       " turn on bottom bar
 let g:airline#extensions#tabline#enabled = 1 " turn on buffer list
-let g:airline_theme='badwolf'
+let g:airline_theme='distinguished'
 
 " for indentLine
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -131,7 +133,7 @@ set term=screen-256color
 " buffer setup
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set hidden             " hide buffer
-set autowrite          " for buffer autowrite
+" set autowrite          " for buffer autowrite
 
 " code folding
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -141,8 +143,6 @@ set foldmethod=manual
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let NERDTreeIgnore =['\.o$']
 let NERDTreeSortOrder=['\.c$']
-
-
 
 " minimap visual
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -154,7 +154,17 @@ if !exists('##TextYankPost')
     map y <Plug>(highlightedyank)
 endif
 
-" add keywords like TODO, FIXME ...
+
+" termdebug config
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+packadd termdebug
+let g:termdebug_wide=1
+let g:termdebug_leftsource = 1
+let g:termdebug_focussource = 1
+let g:termdebug_disable_toolbar = 1
+
+
+" add keywords like TODO, FIXME, NOTE, HACK, FEAT
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! UpdateTodoKeywords(...)
   let newKeywords = join(a:000, " ")
@@ -166,7 +176,7 @@ endfunction
 
 augroup now
   autocmd!
-  autocmd Syntax * call UpdateTodoKeywords("NOTE", "HACK")
+  autocmd Syntax * call UpdateTodoKeywords("NOTE", "HACK", "FEAT")
 augroup END
 
 " ctags (jumping to def)
