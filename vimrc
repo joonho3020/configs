@@ -125,6 +125,7 @@ let g:airline_theme='distinguished'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:indentLine_color_term = 243
 let g:indentLine_char_list = ['|', '¦', '┆', '┊']
+set colorcolumn=79 " set line length marker
 
 " tmux color
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
