@@ -1,0 +1,14 @@
+{
+    "workbench.colorTheme": "Gruvbox Material Dark",
+    "window.zoomLevel": 1,
+    "workbench.editorAssociations": {
+        "*.ipynb": "jupyter.notebook.ipynb"
+    },
+    "vim.normalModeKeyBindings": [
+        {
+            "before": ["<C-n>"],
+            "commands": ["workbench.view.explorer"]
+        }
+    ],
+    "vim.leader" : " ",
+}
