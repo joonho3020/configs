@@ -14,9 +14,10 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'scrooloose/nerdtree'
+Plugin 'PhilRunninger/nerdtree-visual-selection'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'junegunn/vim-slash'
-Plugin 'severin-lemaignan/vim-minimap'
+Plugin 'szw/vim-maximizer'
 
 "" GIT GUI
 Plugin 'airblade/vim-gitgutter'
@@ -25,7 +26,7 @@ Plugin 'tpope/vim-fugitive'
 
 """ FOR COMMENTING
 Plugin 'chrisbra/vim-commentary' 
-    "usage : gcc (comment single line) gc+action(e.g. gcap)
+Plugin 'sakshamgupta05/vim-todo-highlight'
 
 " COLOR SCHEMES
 Plugin 'flazz/vim-colorschemes'
@@ -33,21 +34,31 @@ Plugin 'morhetz/gruvbox'
 
 " SYNTATIC LANGUAGE SUPPORT
 Plugin 'w0rp/ale'
+Plugin 'natebosch/vim-lsc'
 
-" highlighting
+" HIGHLIGHTING
 Plugin 'yggdroot/indentline'
 Plugin 'andymass/vim-matchup'
 Plugin 'machakann/vim-highlightedyank'
 
 " AUTO COMPLETE
-" Plugin 'valloric/youcompleteme'
 Plugin 'CmdlineComplete'
-
+Plugin 'ycm-core/YouCompleteMe'
 
 " JUMPING TO DEFINITION
 Plugin 'jlanzarotta/bufexplorer'
 Plugin 'universal-ctags/ctags'
 
+" USING THE SYSTEM CLIPBOARD
+Plugin 'christoomey/vim-system-copy'
+
+" DEBUG
+Plugin 'puremourning/vimspector' "I really should work on setting this up
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" LANGUAGE SPECIFIC PLUGINS
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " PLUGIN FOR SCALA
 Plugin 'derekwyatt/vim-scala'
 
@@ -90,11 +101,11 @@ set ttyfast            " Improve redrawing
 set mouse+=a           " mouse support - necessary evil
 set encoding=utf-8     " set korean incodings
 set termencoding=utf-8 " set korean incodings
-set ttimeout           " key press time out
-set ttimeoutlen=50     " is 50 ms
+set ttimeout           " faster esc
+set ttimeoutlen=50     " faster esc 50ms
+set clipboard=unnamedplus
 filetype indent on     " load filetype-specific indent files
 filetype plugin on     " load filetype-specific plugin files
-
 
 " search options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -103,46 +114,75 @@ set hlsearch           " highlight matches
 set ignorecase         " ignore case
 set smartcase          " but make it case sensitive if an uppercase in entered
 
-
 " for vim-airline
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set noshowmode         " no show mode for default
 set laststatus=2       " turn on bottom bar
 let g:airline#extensions#tabline#enabled = 1 " turn on buffer list
-let g:airline_theme='badwolf'
+let g:airline_theme='distinguished'
 
 " for indentLine
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:indentLine_color_term = 243
 let g:indentLine_char_list = ['|', '¦', '┆', '┊']
+set colorcolumn=79 " set line length marker
 
 " tmux color
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set term=screen-256color
 
-
 " buffer setup
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set hidden             " hide buffer
-set autowrite          " for buffer autowrite
-
+" set autowrite          " for buffer autowrite
 
 " code folding
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set foldmethod=manual
 
+" better view for nerdtree
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let NERDTreeIgnore =['\.o$']
+let NERDTreeSortOrder=['\.c$']
+
+" minimap visual
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:minimap_highlight='Visual'
+
+" highlighted yank config for older vim
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if !exists('##TextYankPost')
+    map y <Plug>(highlightedyank)
+endif
+
+
+" termdebug config
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+packadd termdebug
+let g:termdebug_wide=1
+let g:termdebug_leftsource = 1
+let g:termdebug_focussource = 1
+let g:termdebug_disable_toolbar = 1
+
+
+" add keywords like TODO, FIXME, NOTE, HACK, FEAT
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! UpdateTodoKeywords(...)
+  let newKeywords = join(a:000, " ")
+  let synTodo = map(filter(split(execute("syntax list"), '\n') , { i,v -> match(v, '^\w*Todo\>') == 0}), {i,v -> substitute(v, ' .*$', '', '')})
+  for synGrp in synTodo
+    execute "syntax keyword " . synGrp . " contained " . newKeywords
+  endfor
+endfunction
+
+augroup now
+  autocmd!
+  autocmd Syntax * call UpdateTodoKeywords("NOTE", "HACK", "FEAT")
+augroup END
 
 " ctags (jumping to def)
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set tags=tags
-
-" minimap visual
-let g:minimap_highlight='Visual'
-
-" highlighted yank config for older vim
-if !exists('##TextYankPost')
-    map y <Plug>(highlightedyank)
-endif
 
 " auto update ctags when a file is written
 function! DelTagOfFile(file)
