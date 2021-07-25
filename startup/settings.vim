@@ -6,6 +6,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set background=dark 
 colorscheme gruvbox
+let g:gruvbox_contrast_dark='hard'
 
 " syntax
 syntax enable
@@ -58,8 +59,9 @@ let g:airline_theme='distinguished'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:indentLine_color_term = 243
 let g:indentLine_char_list = ['|', '¦', '┆', '┊']
-set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
 set colorcolumn=79 " line length marker
+set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
+set list
 
 " tmux color
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

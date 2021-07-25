@@ -29,11 +29,7 @@ Plug 'morhetz/gruvbox'
 
 " SYNTATIC LANGUAGE SUPPORT
 Plug 'w0rp/ale'
-Plug 'autozimu/LanguageClient-neovim', {
-      \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
-
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " HIGHLIGHTING
 Plug 'yggdroot/indentline'
@@ -54,7 +50,6 @@ Plug 'christoomey/vim-system-copy'
 " DEBUG
 " Plug 'puremourning/vimspector' "I really should work on setting this up
 
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " LANGUAGE SPECIFIC PLUGINS
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -70,3 +65,4 @@ call plug#end()
 
 source ~/.vim/startup/settings.vim
 source ~/.vim/startup/mappings.vim
+source ~/.vim/startup/coc.vim

@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/joonhohwangbo/.oh-my-zsh"
+export ZSH="/home/joonho/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -10,7 +10,7 @@ export ZSH="/Users/joonhohwangbo/.oh-my-zsh"
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="agnoster"
 
-source "$HOME/.vim/bundle/gruvbox/gruvbox_256palette.sh"
+source "$HOME/.vim/plugged/gruvbox/gruvbox_256palette.sh"
 #source "$HOME/.vim/bundle/gruvbox/gruvbox_256palette_osx.sh"
 
 # Set list of themes to pick from when loading at random
@@ -98,17 +98,19 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+# alias vim="nvim"
+alias code="/home/joonho/prog/nvim-linux64/bin/nvim"
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/Users/joonhohwangbo/opt/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$('/home/joonho/miniconda/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/Users/joonhohwangbo/opt/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/Users/joonhohwangbo/opt/anaconda3/etc/profile.d/conda.sh"
+    if [ -f "/home/joonho/miniconda/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/joonho/miniconda/anaconda3/etc/profile.d/conda.sh"
     else
-        export PATH="/Users/joonhohwangbo/opt/anaconda3/bin:$PATH"
+        export PATH="/home/joonho/miniconda/bin:$PATH"
     fi
 fi
 unset __conda_setup
@@ -121,3 +123,9 @@ prompt_context() {
     prompt_segment black default "%(!.%{%F{yellow}%}.)$USER"
   fi
 }
+
+bindkey -v
+
+export PATH=~/settings/cmake-3.21.0-linux-x86_64/bin:$PATH
+export PATH=~/settings/llvm-project/build/bin:$PATH
+
