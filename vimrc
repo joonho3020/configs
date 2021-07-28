@@ -35,10 +35,11 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'yggdroot/indentline'
 Plug 'andymass/vim-matchup'
 Plug 'machakann/vim-highlightedyank'
+Plug 'jackguo380/vim-lsp-cxx-highlight'
 
 " AUTO COMPLETE
-Plug 'CmdlineComplete'
-Plug 'ycm-core/YouCompleteMe'
+" Plug 'CmdlineComplete'
+" Plug 'ycm-core/YouCompleteMe'
 
 " JUMPING TO DEFINITION
 Plug 'jlanzarotta/bufexplorer'
