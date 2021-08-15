@@ -29,7 +29,7 @@ Plug 'morhetz/gruvbox'
 
 " SYNTATIC LANGUAGE SUPPORT
 Plug 'w0rp/ale'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " HIGHLIGHTING
 Plug 'yggdroot/indentline'
@@ -39,7 +39,7 @@ Plug 'jackguo380/vim-lsp-cxx-highlight'
 
 " AUTO COMPLETE
 " Plug 'CmdlineComplete'
-" Plug 'ycm-core/YouCompleteMe'
+Plug 'ycm-core/YouCompleteMe'
 
 " JUMPING TO DEFINITION
 Plug 'jlanzarotta/bufexplorer'
