@@ -1,5 +1,5 @@
 " -------------------------- Key Mappings ---------------------------
-
+"
 " Search results centered please
 nnoremap <silent> n nzz
 nnoremap <silent> N Nzz
@@ -45,5 +45,5 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
 " move btw buffers
-nnoremap <TAB> :bnext<CR>
-nnoremap <S-TAB> :bprevious<CR>
+nnoremap <Tab> :bnext<CR>
+nnoremap <S-Tab> :bprevious<CR>
