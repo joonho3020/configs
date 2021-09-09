@@ -11,10 +11,11 @@ syntax enable
 " colorscheme solarized8
 " colorscheme gruvbox
 " let g:gruvbox_contrast_dark='hard'
-colorscheme nord
-set termguicolors
-let g:nord_italic = 1
-let g:nord_italic_comments = 1
+" colorscheme nord
+" set termguicolors
+" let g:nord_italic = 1
+" let g:nord_italic_comments = 1
+colorscheme iceberg
 
 
 " tabs and spaces
@@ -59,7 +60,7 @@ set smartcase          " but make it case sensitive if an uppercase in entered
 set noshowmode         " no show mode for default
 set laststatus=2       " turn on bottom bar
 let g:airline#extensions#tabline#enabled = 1 " turn on buffer list
-let g:airline_theme='nord'
+let g:airline_theme='iceberg'
 
 " for indenting and spacing
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

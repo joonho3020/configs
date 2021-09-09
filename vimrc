@@ -25,7 +25,8 @@ Plug 'sakshamgupta05/vim-todo-highlight'
 
 " COLOR SCHEMES
 Plug 'morhetz/gruvbox'
-Plug 'arcticicestudio/nord-vim'
+Plug 'rafi/awesome-vim-colorschemes'
+Plug 'cocopon/iceberg'
 
 " SYNTATIC LANGUAGE SUPPORT
 Plug 'w0rp/ale'
