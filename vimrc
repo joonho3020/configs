@@ -24,8 +24,8 @@ Plug 'chrisbra/vim-commentary'
 Plug 'sakshamgupta05/vim-todo-highlight'
 
 " COLOR SCHEMES
-Plug 'flazz/vim-colorschemes'
 Plug 'morhetz/gruvbox'
+Plug 'arcticicestudio/nord-vim'
 
 " SYNTATIC LANGUAGE SUPPORT
 Plug 'w0rp/ale'

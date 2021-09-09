@@ -2,14 +2,20 @@
 " general settings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" colors
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set background=dark 
-colorscheme gruvbox
-let g:gruvbox_contrast_dark='hard'
-
 " syntax
 syntax enable
+
+" colors
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" set background=dark
+" colorscheme solarized8
+" colorscheme gruvbox
+" let g:gruvbox_contrast_dark='hard'
+colorscheme nord
+set termguicolors
+let g:nord_italic = 1
+let g:nord_italic_comments = 1
+
 
 " tabs and spaces
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -53,7 +59,7 @@ set smartcase          " but make it case sensitive if an uppercase in entered
 set noshowmode         " no show mode for default
 set laststatus=2       " turn on bottom bar
 let g:airline#extensions#tabline#enabled = 1 " turn on buffer list
-let g:airline_theme='distinguished'
+let g:airline_theme='nord'
 
 " for indenting and spacing
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
