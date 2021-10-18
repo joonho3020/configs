@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/joonho/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -11,7 +11,6 @@ export ZSH="/home/joonho/.oh-my-zsh"
 ZSH_THEME="agnoster"
 
 source "$HOME/.vim/plugged/gruvbox/gruvbox_256palette.sh"
-#source "$HOME/.vim/bundle/gruvbox/gruvbox_256palette_osx.sh"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -71,7 +70,10 @@ source "$HOME/.vim/plugged/gruvbox/gruvbox_256palette.sh"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git fd)
+plugins=(
+  git fd
+  fzf
+)
 source $ZSH/oh-my-zsh.sh
 # User configuration
 
@@ -98,19 +100,21 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-# alias vim="nvim"
-alias code="/home/joonho/prog/nvim-linux64/bin/nvim"
+alias vi="vim"
+alias bench="cd Documents/bench/"
+alias squit="squeue -u $USER -h | awk '{print $1}' | xargs scancel"
+# alias jpin = "cd Documents/bench/pin/pin-3.20-98437-gf02b61307-gcc-linux/source/tools"
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/joonho/miniconda/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$('/data/nfs_home/joonho/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/home/joonho/miniconda/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/joonho/miniconda/anaconda3/etc/profile.d/conda.sh"
+    if [ -f "/data/nfs_home/joonho/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/data/nfs_home/joonho/miniconda3/etc/profile.d/conda.sh"
     else
-        export PATH="/home/joonho/miniconda/bin:$PATH"
+        export PATH="/data/nfs_home/joonho/miniconda3/bin:$PATH"
     fi
 fi
 unset __conda_setup
@@ -126,6 +130,21 @@ prompt_context() {
 
 bindkey -v
 
-export PATH=~/settings/cmake-3.21.0-linux-x86_64/bin:$PATH
-export PATH=~/settings/llvm-project/build/bin:$PATH
+# trace dir
+export TRACE_DIR=/data/trace/spec2006_x86_v13
 
+# for macsim tools
+export MACSIM_TOOLS=/home/ipa/joonho/Documents/bench/Simulators/macsim_tools
+export SIM_RESULT_DIR=/data/scratch/joonho/macsim-results
+
+# path settings
+export CPATH=/usr/local/cuda-11.4/include:$CPATH
+export LD_LIBRARY_PATH=/usr/local/cuda-11.4/lib64:$LD_LIBRARY_PATH
+export DYLD_LIBRARY_PATH=/usr/local/cuda-11.4/lib:$DYLD_LIBRARY_PATH
+
+export PATH=/usr/local/cuda-11.4/bin:$PATH
+export PATH=/usr/bin/clangd:$PATH
+export PATH=~/Documents/bench/pin/pin-3.13-98189-g60a6ef199-gcc-linux:$PATH
+export PATH=$MACSIM_TOOLS:$PATH
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
