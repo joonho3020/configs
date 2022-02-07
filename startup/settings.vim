@@ -7,7 +7,7 @@ syntax enable
 
 " colors
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" set background=dark
+set background=dark
 " colorscheme solarized8
 " colorscheme gruvbox
 " let g:gruvbox_contrast_dark='hard'
@@ -15,7 +15,7 @@ syntax enable
 " set termguicolors
 " let g:nord_italic = 1
 " let g:nord_italic_comments = 1
-colorscheme iceberg
+colorscheme nord
 
 
 " tabs and spaces
@@ -48,26 +48,30 @@ set clipboard=unnamedplus
 filetype indent on     " load filetype-specific indent files
 filetype plugin on     " load filetype-specific plugin files
 
+let g:python_recommended_style=0
+
 " search options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set incsearch          " search as characters are entered
 set hlsearch           " highlight matches
 set ignorecase         " ignore case
 set smartcase          " but make it case sensitive if an uppercase in entered
+" set shortmess-=S       " Show search count on status bar
 
 " for vim-airline
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set noshowmode         " no show mode for default
 set laststatus=2       " turn on bottom bar
-let g:airline#extensions#tabline#enabled = 1 " turn on buffer list
-let g:airline_theme='iceberg'
+let g:lightline = {
+      \ 'colorscheme': 'wombat',
+      \ }
 
 " for indenting and spacing
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:indentLine_color_term = 243
 let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 set colorcolumn=79 " line length marker
-set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
+set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<
 set list
 
 " tmux color

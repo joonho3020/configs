@@ -7,12 +7,12 @@ filetype off                  " required
 call plug#begin('~/.vim/plugged')
 
 " GUI RELATED PLUGINS
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'PhilRunninger/nerdtree-visual-selection'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'junegunn/vim-slash'
+Plug 'obcat/vim-hitspop'
 
 "" GIT GUI
 Plug 'airblade/vim-gitgutter'
@@ -21,12 +21,12 @@ Plug 'tpope/vim-fugitive'
 
 """ FOR COMMENTING
 Plug 'chrisbra/vim-commentary' 
-Plug 'sakshamgupta05/vim-todo-highlight'
 
 " COLOR SCHEMES
-Plug 'morhetz/gruvbox'
+" Plug 'morhetz/gruvbox'
+" Plug 'cocopon/iceberg'
+Plug 'arcticicestudio/nord-vim'
 Plug 'rafi/awesome-vim-colorschemes'
-Plug 'cocopon/iceberg'
 
 " SYNTATIC LANGUAGE SUPPORT
 Plug 'w0rp/ale'
@@ -36,7 +36,7 @@ Plug 'w0rp/ale'
 Plug 'yggdroot/indentline'
 Plug 'andymass/vim-matchup'
 Plug 'machakann/vim-highlightedyank'
-Plug 'jackguo380/vim-lsp-cxx-highlight'
+" Plug 'jackguo380/vim-lsp-cxx-highlight'
 
 " AUTO COMPLETE
 " Plug 'CmdlineComplete'
@@ -67,4 +67,4 @@ call plug#end()
 
 source ~/.vim/startup/settings.vim
 source ~/.vim/startup/mappings.vim
-source ~/.vim/startup/coc.vim
+" source ~/.vim/startup/coc.vim
