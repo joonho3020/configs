@@ -13,6 +13,7 @@ Plug 'PhilRunninger/nerdtree-visual-selection'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'junegunn/vim-slash'
 Plug 'obcat/vim-hitspop'
+Plug 'ap/vim-buftabline'
 
 "" GIT GUI
 Plug 'airblade/vim-gitgutter'

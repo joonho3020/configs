@@ -58,7 +58,7 @@ set ignorecase         " ignore case
 set smartcase          " but make it case sensitive if an uppercase in entered
 " set shortmess-=S       " Show search count on status bar
 
-" for vim-airline
+" for lightline
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set noshowmode         " no show mode for default
 set laststatus=2       " turn on bottom bar
