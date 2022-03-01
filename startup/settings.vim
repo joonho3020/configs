@@ -62,9 +62,12 @@ set smartcase          " but make it case sensitive if an uppercase in entered
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set noshowmode         " no show mode for default
 set laststatus=2       " turn on bottom bar
-let g:lightline = {
-      \ 'colorscheme': 'wombat',
-      \ }
+" let g:lightline = {
+" \ 'colorscheme': 'wombat',
+" \ }
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
 
 " for indenting and spacing
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -81,7 +84,7 @@ set term=screen-256color
 " buffer setup
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set hidden             " hide buffer
-" set autowrite          " for buffer autowrite
+set autowrite          " for buffer autowrite
 
 " code folding
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -98,6 +101,10 @@ if !exists('##TextYankPost')
     map y <Plug>(highlightedyank)
 endif
 
+" YCM Complete
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:ycm_autoclose_preview_window_after_completion = 1
+
 
 " termdebug config
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -106,7 +113,7 @@ let g:termdebug_wide=1
 let g:termdebug_leftsource = 1
 let g:termdebug_focussource = 1
 let g:termdebug_disable_toolbar = 1
-hi debugPC term=reverse ctermbg=888 guibg=darkblue
+hi debugPC term=reverse ctermbg=8 guibg=darkblue
 
 
 " add keywords like TODO, FIXME, NOTE, HACK, FEAT
@@ -130,23 +137,29 @@ set tags=tags
 
 " auto update ctags when a file is written
 function! DelTagOfFile(file)
-	let fullpath = a:file
-	let cwd = getcwd()
-	let tagfilename = cwd . "/tags"
-	let f = substitute(fullpath, cwd . "/", "", "")
-	let f = escape(f, './')
-	let cmd = 'sed -i "/' . f . '/d" "' . tagfilename . '"'
-	let resp = system(cmd)
+  let fullpath = a:file
+  let cwd = getcwd()
+  let tagfilename = cwd . "/tags"
+  let f = substitute(fullpath, cwd . "/", "", "")
+  let f = escape(f, './')
+  let cmd = 'sed -i "/' . f . '/d" "' . tagfilename . '"'
+  let resp = system(cmd)
 endfunction
 
 function! UpdateTags()
-	let f = expand("%:p")
-	let cwd = getcwd()
-	let tagfilename = cwd . "/tags"
-	let cmd = 'ctags -a -f ' . tagfilename . ' --c++-kinds=+p --fields=+iaS --extra=+q ' . '"' . f . '"'
-	call DelTagOfFile(f)
-	let resp = system(cmd)
+  let f = expand("%:p")
+  let cwd = getcwd()
+  let tagfilename = cwd . "/tags"
+  let cmd = 'ctags -a -f ' . tagfilename . ' --c++-kinds=+p --fields=+iaS --extra=+q ' . '"' . f . '"'
+  call DelTagOfFile(f)
+  let resp = system(cmd)
 endfunction
 
 autocmd BufWritePost *.cpp,*.h,*.c call UpdateTags()
+
+" cscopes
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if filereadable("./cscope.out")
+  cs add cscope.out
+endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
