@@ -10,6 +10,7 @@ if not vim.loop.fs_stat(lazypath) then
     lazypath,
   })
 end
+
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
@@ -66,11 +67,7 @@ require("lazy").setup({
     "folke/snacks.nvim",
     priority = 1000,
     lazy = false,
-    ---@type snacks.Config
     opts = {
-      -- your configuration comes here
-      -- or leave it empty to use the default settings
-      -- refer to the configuration section below
       indent = {
         enabled = true,
         only_scope = true,
@@ -90,36 +87,13 @@ require("lazy").setup({
       words = {enable = false },
       terminal = {
         enable = true,
+      },
+      image = {
+        enabled = false,
       }
     },
-  },
-  {
-    "tzachar/cmp-ai",
-    enabled = true,
-    dependencies = "nvim-lua/plenary.nvim",
-    config = function()
-      local cmp_ai = require("cmp_ai.config")
-
-      cmp_ai:setup {
-        max_lines = 1000,
-        notify = false,
-        notify_callback = function(msg)
-          vim.notify(msg)
-        end,
-        run_on_every_keystroke = true,
-        ignored_file_types = {
-          TelescopePrompt = true,
-        },
-        -- provider = ollama
-        provider = "Ollama",
-        provider_options = {
-          model = "codellama:7b-code",
-        },
-      }
-    end,
-  },
+  }
 })
-
 
 -- General Settings
 vim.cmd [[
@@ -183,9 +157,11 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.keymap.set("n", "<C-n>", ":NvimTreeToggle<CR>", { noremap = true, silent = true })
 
-
--- Show hidden files in NERDTree
--- vim.g.NERDTreeShowHidden = 1
+-- disable gitgutter from nvimtree buffers
+vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
+  pattern = "NvimTree_*",
+  command = "GitGutterBufferDisable",
+})
 
 -- Conflict marker settings
 vim.g.conflict_marker_enable_mappings = 0
@@ -248,7 +224,6 @@ vim.api.nvim_set_keymap('n', '<Leader>o', ':Rfinder<CR>', { noremap = true, sile
 -- Show diagnostic
 vim.api.nvim_set_keymap('n', '<Leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', { noremap=true, silent=true })
 
-
 -- LSP Mappings
 local opts = { buffer = bufnr, noremap = true, silent = true }
 vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
@@ -262,6 +237,9 @@ vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
 
 vim.notify = require("notify")
 
+-- remove annoying messages
+vim.keymap.set("n", "<Leader>d", ":NoiceDismiss<CR>", { noremap = true, silent = true })
+
 --------------------------------------------------------------------------------------------
 -- Plugins
 --------------------------------------------------------------------------------------------
@@ -270,8 +248,8 @@ require "user.metals"
 require "user.lsp"
 require "user.bufferline"
 require "user.tokyonight"
-require "user.noice"
 require "user.nvimtree"
+require "user.noice"
 
 require("scrollbar").setup()
 require('lualine').setup()
