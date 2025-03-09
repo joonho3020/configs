@@ -1,6 +1,12 @@
 
-
 require("nvim-tree").setup {
+  filters = {
+    dotfiles = false,  -- Show hidden files (dotfiles)
+    custom = {},       -- Ensure no custom hidden patterns
+  },
+  git = {
+    ignore = false,    -- Show files ignored by .gitignore (important for PDFs)
+  },
   view = {
     width = 30,
     side = "left",
@@ -13,8 +19,9 @@ require("nvim-tree").setup {
   actions = {
     open_file = {
       quit_on_open = false,
-   window_picker = {
-        enable = false,  -- Disables window picker, making files open in the last active window
+      -- Disables window picker, making files open in the last active window
+      window_picker = {
+        enable = false,
       },
     },
   },
@@ -30,10 +37,8 @@ require("nvim-tree").setup {
     vim.keymap.set("n", "o", api.node.open.edit, opts("Open"))
     vim.keymap.set("n", "p", api.node.navigate.parent, opts("Go to Parent"))
     vim.keymap.set("n", "r", api.tree.reload, opts("Refresh"))
-    
-    -- Unmap <C-e> inside nvim-tree (it is originally open, but unmap it to scroll)
-    vim.keymap.del("n", "<C-e>", { buffer = bufnr })
-    
 
+     -- Unmap <C-e> inside nvim-tree (it is originally open, but just scroll)
+    vim.keymap.del("n", "<C-e>", { buffer = bufnr })
   end
 }
