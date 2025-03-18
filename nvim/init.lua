@@ -26,7 +26,6 @@ require("lazy").setup({
   'famiu/bufdelete.nvim',
   'nvim-tree/nvim-tree.lua',
   'nvim-tree/nvim-web-devicons',
-  'petertriho/nvim-scrollbar',
   'rcarriga/nvim-notify',
   'petertriho/nvim-scrollbar',
   'airblade/vim-gitgutter',
@@ -180,11 +179,6 @@ vim.api.nvim_create_user_command('Rfinder',
  {}
 )
 
--- require "user.markdownpreview"
-vim.g.mkdp_auto_start = 0
-vim.g.mkdp_theme = 'light'
-vim.g.mkdp_auto_close = 0
-
 --------------------------------------------------------------
 -- Key mappings
 --------------------------------------------------------------
@@ -253,4 +247,3 @@ require "user.noice"
 
 require("scrollbar").setup()
 require('lualine').setup()
-require("nvim-web-devicons").setup()
