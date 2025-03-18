@@ -1,4 +1,5 @@
 
+
 require("nvim-tree").setup {
   filters = {
     dotfiles = false,  -- Show hidden files (dotfiles)
@@ -32,6 +33,7 @@ require("nvim-tree").setup {
       return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
     end
     api.config.mappings.default_on_attach(bufnr)
+
 
     -- NERDTree-like mappings
     vim.keymap.set("n", "o", api.node.open.edit, opts("Open"))
