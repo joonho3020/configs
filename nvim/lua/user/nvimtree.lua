@@ -1,5 +1,3 @@
-
-
 require("nvim-tree").setup {
   filters = {
     dotfiles = false,  -- Show hidden files (dotfiles)

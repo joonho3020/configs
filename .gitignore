@@ -31,3 +31,5 @@ Temporary Items
 # tags & TAGS by vim
 TAGS
 tags
+
+nvim/lazy-lock.json

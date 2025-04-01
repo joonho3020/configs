@@ -43,15 +43,7 @@ require("lazy").setup({
   'L3MON4D3/LuaSnip',
   'NoahTheDuke/vim-just',
   'chrisbra/vim-commentary',
--- 'nvimdev/indentmini.nvim',
-  { "cordx56/rustowl", dependencies = { "neovim/nvim-lspconfig" } },
-  {
-    'MeanderingProgrammer/render-markdown.nvim',
-    dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
-    ---@module 'render-markdown'
-    ---@type render.md.UserConfig
-    opts = {},
-  },
+  'stevearc/stickybuf.nvim',
   {
     "folke/noice.nvim",
     event = "VeryLazy",
@@ -66,32 +58,25 @@ require("lazy").setup({
     "folke/snacks.nvim",
     priority = 1000,
     lazy = false,
-    opts = {
-      indent = {
-        enabled = true,
-        only_scope = true,
-        hl = "SnacksIndent",
-        animate = {
-          enabled = false,
-        }
-      },
-      scroll = { enabled = false },
-      scope = { enable = false },
-      statuscolumn = { enabled = false },
-      notifier = { timeout = 3000, },
-      input = {enable = true },
-      quickfile = { enabled = true },
-      bigfile = { enabled = true },
-      dashboard = { enabled = true },
-      words = {enable = false },
-      terminal = {
-        enable = true,
-      },
-      image = {
-        enabled = false,
-      }
-    },
-  }
+  },
+  {
+    "folke/which-key.nvim",
+    event = "VeryLazy",
+  },
+  {
+    'MeanderingProgrammer/render-markdown.nvim',
+    dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+    opts = {},
+  },
+  {
+    "iamcco/markdown-preview.nvim",
+    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    build = "cd app && yarn install",
+    init = function()
+      vim.g.mkdp_filetypes = { "markdown" }
+    end,
+    ft = { "markdown" },
+  },
 })
 
 -- General Settings
@@ -117,7 +102,6 @@ vim.cmd [[
   set ttyfast
   set mouse+=a
   set encoding=utf-8
-  set termencoding=utf-8
   set ttimeout
   set ttimeoutlen=50
   set clipboard=unnamedplus
@@ -183,21 +167,15 @@ vim.api.nvim_create_user_command('Rfinder',
 -- Key mappings
 --------------------------------------------------------------
 
+-- Leader key
+vim.g.mapleader = ' '
+
 -- Faster scroll
 vim.api.nvim_set_keymap('n', '<C-e>', '10<C-e>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<C-y>', '10<C-y>', { noremap = true, silent = true })
 
 -- termdebug exit terminal mode
 vim.api.nvim_set_keymap('t', '<Esc>', '<C-\\><C-n>', { noremap = true, silent = true })
-
--- Leader key
-vim.g.mapleader = ' '
-
--- Use alt + hjkl to resize windows
-vim.api.nvim_set_keymap('n', '<M-j>', ':resize -2<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<M-k>', ':resize +2<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<M-h>', ':vertical resize -2<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<M-l>', ':vertical resize +2<CR>', { noremap = true, silent = true })
 
 -- Better window navigation
 vim.api.nvim_set_keymap('n', '<C-h>', '<C-w>h', { noremap = true, silent = true })
@@ -206,17 +184,8 @@ vim.api.nvim_set_keymap('n', '<C-k>', '<C-w>k', { noremap = true, silent = true 
 vim.api.nvim_set_keymap('n', '<C-l>', '<C-w>l', { noremap = true, silent = true })
 
 -- move btw buffers
-vim.api.nvim_set_keymap('n', '<Tab>', ':bnext<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Tab>',   ':bnext<CR>',     { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<S-Tab>', ':bprevious<CR>', { noremap = true, silent = true })
-
--- Have ctags automatically check for all tags first and present them
-vim.api.nvim_set_keymap('n', '<C-]>', 'g<C-]>', { noremap = true, silent = true })
-
--- run the "open" command on the current buffer on mac
-vim.api.nvim_set_keymap('n', '<Leader>o', ':Rfinder<CR>', { noremap = true, silent = true })
-
--- Show diagnostic
-vim.api.nvim_set_keymap('n', '<Leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', { noremap=true, silent=true })
 
 -- LSP Mappings
 local opts = { buffer = bufnr, noremap = true, silent = true }
@@ -228,11 +197,7 @@ vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
 vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
 vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
 
-
 vim.notify = require("notify")
-
--- remove annoying messages
-vim.keymap.set("n", "<Leader>d", ":NoiceDismiss<CR>", { noremap = true, silent = true })
 
 --------------------------------------------------------------------------------------------
 -- Plugins
@@ -244,6 +209,37 @@ require "user.bufferline"
 require "user.tokyonight"
 require "user.nvimtree"
 require "user.noice"
+require "user.snacks"
 
 require("scrollbar").setup()
-require('lualine').setup()
+require("lualine").setup()
+
+local wk = require("which-key")
+wk.add({
+  -- Grep
+  { "<leader>/",  function() Snacks.picker.grep() end,        desc = "Grep",                        mode = "n" },
+  -- Find
+  { "<leader>ff", "<cmd>Telescope find_files<cr>",            desc = "Find File",                   mode = "n" },
+  { "<leader>fw", "<cmd>Telescope live_grep<cr>",             desc = "Find Words",                  mode = "n" },
+  { "<leader>fg", "<cmd>Telescope grep_string<cr>",           desc = "Find Word Under Cursor",      mode = "n" },
+  { "<leader>fb", function() Snacks.picker.buffers() end,     desc = "Find buffers",                mode = "n" },
+  -- Buffer
+  { "<leader>bd", ":Bdelete<cr>",                             desc = "Bdelete",                     mode = "n" },
+  { "<leader>bp", ":BufferLineTogglePin<cr>",                 desc = "Buffer (Un)Pin",              mode = "n" },
+  -- git
+  { "<leader>gb", function() Snacks.picker.git_branches() end, desc = "Git Branches" },
+  { "<leader>gl", function() Snacks.picker.git_log() end, desc = "Git Log" },
+  { "<leader>gL", function() Snacks.picker.git_log_line() end, desc = "Git Log Line" },
+  { "<leader>gs", function() Snacks.picker.git_status() end, desc = "Git Status" },
+  { "<leader>gS", function() Snacks.picker.git_stash() end, desc = "Git Stash" },
+  { "<leader>gd", function() Snacks.picker.git_diff() end, desc = "Git Diff (Hunks)" },
+  { "<leader>gf", function() Snacks.picker.git_log_file() end, desc = "Git Log File" },
+  -- Markdown
+  { "<leader>md", ":RenderMarkdown disable<cr>",              desc = "Disable markdown render",     mode = "n" },
+  { "<leader>mp", ":MarkdownPreview<cr>",                     desc = "Preview markdown in browser", mode = "n" },
+  -- Etc
+  { "<leader>o",  ":Rfinder<cr>",                             desc = "Mac \"open\" on the buffer",  mode = "n" },
+  { "<leader>e",  "<cmd>lua vim.diagnostic.open_float()<cr>", desc = "Show diagnostic",             mode = "n" },
+  { "<leader>x",  ":NoiceDismiss<cr>",                        desc = "Dismiss noice messages",      mode = "n" },
+  { "<leader>h", hidden = true }, -- hide this keymap
+})
