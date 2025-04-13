@@ -1,0 +1,29 @@
+<!-- launchctl unload com.joonho.rss.plist -->
+<!-- launchctl load com.joonho.rss.plist -->
+<!-- launchctl start com.joonho.rss.plist -->
+<!-- launchctl stop com.joonho.rss.plist -->
+<!-- launchctl print gui/$(id -u)/com.joonho.rss | grep state -->
+<!-- Add this file to ~/Library/LaunchAgents -->
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.joonho.rss</string>
+    <key>ProgramArguments</key>
+    <array>
+      <string>/bin/sh</string>
+      <string>-c</string>
+      <string>cd /Users/joonhohwangbo/Desktop/UCB-BAR/coding/rust_rss && /Users/joonhohwangbo/Desktop/UCB-BAR/coding/rust_rss/target/release/rust_rss</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+    <key>StandardOutPath</key>
+    <string>/tmp/rust_rss.log</string>
+    <key>StandardErrorPath</key>
+    <string>/tmp/rust_rss.err</string>
+</dict>
+</plist>
