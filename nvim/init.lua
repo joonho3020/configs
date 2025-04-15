@@ -18,6 +18,9 @@ require("lazy").setup({
   'nvim-lua/plenary.nvim',
   { 'nvim-telescope/telescope.nvim', tag = '0.1.4' },
   'folke/tokyonight.nvim',
+  'sainnhe/sonokai',
+  'rebelot/kanagawa.nvim',
+  'cocopon/iceberg.vim',
   'andymass/vim-matchup',
   'machakann/vim-highlightedyank',
   'junegunn/vim-slash',
@@ -45,10 +48,23 @@ require("lazy").setup({
   'chrisbra/vim-commentary',
   'stevearc/stickybuf.nvim',
   {
+    "kdheepak/lazygit.nvim",
+    lazy = true,
+    cmd = { "LazyGit", },
+    dependencies = { "nvim-lua/plenary.nvim", },
+  },
+  {
+    'akinsho/toggleterm.nvim',
+    version = "*",
+    opts = {
+      direction = 'float',
+      start_in_insert = true,
+      insert_mappings = true,
+    }
+  },
+  {
     "folke/noice.nvim",
     event = "VeryLazy",
-    opts = {
-    },
     dependencies = {
       "MunifTanjim/nui.nvim",
       "rcarriga/nvim-notify",
@@ -64,6 +80,15 @@ require("lazy").setup({
     event = "VeryLazy",
   },
   {
+    "rachartier/tiny-inline-diagnostic.nvim",
+    event = "VeryLazy", -- Or `LspAttach`
+    priority = 1000, -- needs to be loaded in first
+    config = function()
+      require('tiny-inline-diagnostic').setup()
+      vim.diagnostic.config({ virtual_text = true }) -- Only if needed in your configuration, if you already have native LSP diagnostics
+    end
+  },
+  {
     'MeanderingProgrammer/render-markdown.nvim',
     dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
     opts = {},
@@ -76,6 +101,48 @@ require("lazy").setup({
       vim.g.mkdp_filetypes = { "markdown" }
     end,
     ft = { "markdown" },
+  },
+  {
+    "olimorris/codecompanion.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+    },
+    opts = {
+      strategies = {
+        -- Change the default chat adapter
+        chat = {
+          adapter = 'deepseek',
+        },
+        inline = {
+          adapter = "deepseek",
+        },
+      },
+      adapters = {
+        deepseek = function()
+          return require('codecompanion.adapters').extend('ollama', {
+            name = 'deepseek', -- Give this adapter a different name to differentiate it from the default ollama adapter
+            schema = {
+              model = {
+                default = 'deepseek-r1:7b',
+              },
+            },
+          })
+        end,
+      },
+      opts = {
+        log_level = 'DEBUG',
+      },
+      display = {
+        diff = {
+          enabled = true,
+          close_chat_at = 240, -- Close an open chat buffer if the total columns of your display are less than...
+          layout = 'vertical', -- vertical|horizontal split for default provider
+          opts = { 'internal', 'filler', 'closeoff', 'algorithm:patience', 'followwrap', 'linematch:120' },
+          provider = 'default', -- default|mini_diff
+        },
+      },
+    },
   },
 })
 
@@ -212,21 +279,29 @@ require "user.noice"
 require "user.snacks"
 
 require("scrollbar").setup()
-require("lualine").setup()
+require('lualine').setup {
+  options = {
+    theme = 'tokyonight'
+  }
+}
 
 local wk = require("which-key")
 wk.add({
   -- Grep
   { "<leader>/",  function() Snacks.picker.grep() end,        desc = "Grep",                        mode = "n" },
   -- Find
+  { "<leader>f", group = "find" },
   { "<leader>ff", "<cmd>Telescope find_files<cr>",            desc = "Find File",                   mode = "n" },
   { "<leader>fw", "<cmd>Telescope live_grep<cr>",             desc = "Find Words",                  mode = "n" },
   { "<leader>fg", "<cmd>Telescope grep_string<cr>",           desc = "Find Word Under Cursor",      mode = "n" },
   { "<leader>fb", function() Snacks.picker.buffers() end,     desc = "Find buffers",                mode = "n" },
   -- Buffer
+  { "<leader>b", group = "buffer" },
   { "<leader>bd", ":Bdelete<cr>",                             desc = "Bdelete",                     mode = "n" },
   { "<leader>bp", ":BufferLineTogglePin<cr>",                 desc = "Buffer (Un)Pin",              mode = "n" },
   -- git
+  { "<leader>g", group = "git" },
+  { "<leader>gg", ":LazyGit<cr>", desc = "Open LazyGit" },
   { "<leader>gb", function() Snacks.picker.git_branches() end, desc = "Git Branches" },
   { "<leader>gl", function() Snacks.picker.git_log() end, desc = "Git Log" },
   { "<leader>gL", function() Snacks.picker.git_log_line() end, desc = "Git Log Line" },
@@ -234,9 +309,22 @@ wk.add({
   { "<leader>gS", function() Snacks.picker.git_stash() end, desc = "Git Stash" },
   { "<leader>gd", function() Snacks.picker.git_diff() end, desc = "Git Diff (Hunks)" },
   { "<leader>gf", function() Snacks.picker.git_log_file() end, desc = "Git Log File" },
+  -- terminal
+  { "<leader>t", ":ToggleTerm<cr>", desc = "Toggle terminal" },
+  { "<leader>s", group = "Terminal Split" },
+  { "<leader>s|", ":ToggleTerm direction='vertical' size=130<cr>", desc = "Toggle terminal vertical split" },
+  { "<leader>sf", ":ToggleTerm direction='float'<cr>", desc = "Toggle terminal floating" },
   -- Markdown
+  { "<leader>m", group = "markdown" },
   { "<leader>md", ":RenderMarkdown disable<cr>",              desc = "Disable markdown render",     mode = "n" },
   { "<leader>mp", ":MarkdownPreview<cr>",                     desc = "Preview markdown in browser", mode = "n" },
+  -- lsp
+  { "<leader>r", group = "refactor" },
+  { "<leader>rn", vim.lsp.buf.rename, desc = "Rename using LSP", mode = "n" },
+  -- ai
+  { "<leader>a", group = "ai" },
+  { "<leader>ac", ":CodeCompanionChat<cr>", desc = "Chat with AI" },
+  { "<leader>aa", ":CodeCompanionAction<cr>", desc = "Open actions pane to interact with AI" },
   -- Etc
   { "<leader>o",  ":Rfinder<cr>",                             desc = "Mac \"open\" on the buffer",  mode = "n" },
   { "<leader>e",  "<cmd>lua vim.diagnostic.open_float()<cr>", desc = "Show diagnostic",             mode = "n" },
