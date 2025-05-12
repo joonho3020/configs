@@ -7,7 +7,7 @@ require("mason").setup()
 require("mason-lspconfig").setup()
 
 -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
-local servers = { 'clangd', 'metals', 'pyright', 'ts_ls', 'marksman', 'bashls', 'gopls', 'lua_ls', 'rust_analyzer' }
+local servers = { 'clangd', 'metals', 'pylyzer', 'ts_ls', 'marksman', 'bashls', 'gopls', 'lua_ls', 'rust_analyzer' }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
 -- on_attach = true,
