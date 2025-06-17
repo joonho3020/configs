@@ -1,3 +1,42 @@
+if vim.g.vscode then
+
+  local keymap = vim.keymap.set
+  local opts = { noremap = true, silent = true }
+
+  -- remap leader key
+  keymap("n", "<Space>", "", opts)
+  vim.g.mapleader = " "
+  vim.g.maplocalleader = " "
+
+  -- yank to system clipboard
+  keymap({"n", "v"}, "<leader>y", '"+y', opts)
+
+  -- paste from system clipboard
+  keymap({"n", "v"}, "<leader>p", '"+p', opts)
+
+  -- better indent handling
+  keymap("v", "<", "<gv", opts)
+  keymap("v", ">", ">gv", opts)
+
+  -- Better window navigation
+  keymap('n', '<C-h>', "<cmd>lua require('vscode').action('workbench.action.navigateLeft')<CR>")
+  keymap('n', '<C-j>', "<cmd>lua require('vscode').action('workbench.action.navigateDown')<CR>")
+  keymap('n', '<C-k>', "<cmd>lua require('vscode').action('workbench.action.navigateUp')<CR>")
+  keymap('n', '<C-l>', "<cmd>lua require('vscode').action('workbench.action.navigateRight')<CR>")
+
+  -- Toggle explorer
+  keymap('n', '<leader>e', "<cmd>lua require('vscode').action('workbench.action.toggleSidebarVisibility')<CR>")
+
+  -- general keymaps
+  keymap({"n", "v"}, "<leader>t", "<cmd>lua require('vscode').action('workbench.action.terminal.toggleTerminal')<CR>")
+  keymap({"n", "v"}, "<leader>ff", "<cmd>lua require('vscode').action('workbench.action.quickOpen')<CR>")
+
+  -- Faster scroll
+  keymap('n', '<C-e>', "<cmd>lua require('vscode').action('editor.action.scrollDownHover')<CR>")
+  keymap('n', '<C-y>', "<cmd>lua require('vscode').action('editor.action.scrollUpHover')<CR>")
+
+else
+
 -- Initialize lazy.nvim package manager
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -101,6 +140,11 @@ require("lazy").setup({
       vim.g.mkdp_filetypes = { "markdown" }
     end,
     ft = { "markdown" },
+  },
+  {
+    "tadmccorkle/markdown.nvim",
+    ft = "markdown",
+    opts = {},
   },
   {
     "olimorris/codecompanion.nvim",
@@ -311,9 +355,11 @@ wk.add({
   { "<leader>gf", function() Snacks.picker.git_log_file() end, desc = "Git Log File" },
   -- terminal
   { "<leader>t", ":ToggleTerm<cr>", desc = "Toggle terminal" },
-  { "<leader>s", group = "Terminal Split" },
-  { "<leader>s|", ":ToggleTerm direction='vertical' size=130<cr>", desc = "Toggle terminal vertical split" },
-  { "<leader>sf", ":ToggleTerm direction='float'<cr>", desc = "Toggle terminal floating" },
+-- { "<leader>s", group = "Terminal Split" },
+-- { "<leader>s|", ":ToggleTerm direction='vertical' size=130<cr>", desc = "Toggle terminal vertical split" },
+-- { "<leader>sf", ":ToggleTerm direction='float'<cr>", desc = "Toggle terminal floating" },
+  -- save
+  { "<leader>s", ":w<cr>", desc = "Save changes" },
   -- Markdown
   { "<leader>m", group = "markdown" },
   { "<leader>md", ":RenderMarkdown disable<cr>",              desc = "Disable markdown render",     mode = "n" },
@@ -321,6 +367,7 @@ wk.add({
   -- lsp
   { "<leader>r", group = "refactor" },
   { "<leader>rn", vim.lsp.buf.rename, desc = "Rename using LSP", mode = "n" },
+  { "<leader>rs", ":s/",              desc = "Rename regex",     mode = "v" },
   -- ai
   { "<leader>a", group = "ai" },
   { "<leader>ac", ":CodeCompanionChat<cr>", desc = "Chat with AI" },
@@ -331,3 +378,5 @@ wk.add({
   { "<leader>x",  ":NoiceDismiss<cr>",                        desc = "Dismiss noice messages",      mode = "n" },
   { "<leader>h", hidden = true }, -- hide this keymap
 })
+
+end
