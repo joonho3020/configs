@@ -20,64 +20,58 @@ export HISTSIZE=1000000
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
-# Bash completion
-source /etc/profile.d/bash_completion.sh
-bind 'set completion-ignore-case on'
-bind 'TAB:menu-complete'
-bind '"\e[Z": menu-complete-backward'
-bind 'set show-all-if-ambiguous on'
-bind 'set menu-complete-display-prefix on'
-bind 'set colored-completion-prefix on'
-bind 'set colored-stats off'
-
 ##############################################################################
 
-linediff() { 
-     if [ -z "$1" ] || [ -z "$2" ]; then return; fi
-     f1=$(basename "$1")
-     f2=$(basename "$2")
-     cat -n "$1" > "/tmp/$f1"
-     cat -n "$2" > "/tmp/$f2"
-     vimdiff "/tmp/$f1" "/tmp/$f2"
-     rm "/tmp/$f1" "/tmp/$f2"
+linediff() {
+  if [ -z "$1" ] || [ -z "$2" ]; then return; fi
+  f1=$(basename "$1")
+  f2=$(basename "$2")
+  cat -n "$1" >"/tmp/$f1"
+  cat -n "$2" >"/tmp/$f2"
+  vimdiff "/tmp/$f1" "/tmp/$f2"
+  rm "/tmp/$f1" "/tmp/$f2"
 }
 
 function set_sbt_heap_size() {
-  export SBT_OPTS="-Xmx16G -Xms1G"
+	export SBT_OPTS="-Xmx16G -Xms1G"
 }
 
 function connect_ssh_agent() {
-  # set SSH_AUTH_SOCK env var to a fixed value
-  export SSH_AUTH_SOCK=~/.ssh/ssh-agent.sock
+	# set SSH_AUTH_SOCK env var to a fixed value
+	export SSH_AUTH_SOCK=~/.ssh/ssh-agent.sock
 
-  # test whether $SSH_AUTH_SOCK is valid
-  ssh-add -l 2>/dev/null >/dev/null
+	# test whether $SSH_AUTH_SOCK is valid
+	ssh-add -l 2>/dev/null >/dev/null
 
-  # if not valid, then start ssh-agent using $SSH_AUTH_SOCK
-  [ $? -ge 2 ] && ssh-agent -a "$SSH_AUTH_SOCK" >/dev/null
+	# if not valid, then start ssh-agent using $SSH_AUTH_SOCK
+	[ $? -ge 2 ] && ssh-agent -a "$SSH_AUTH_SOCK" >/dev/null
 }
 
 function firesim1_connect_ssh_agent() {
-  # set SSH_AUTH_SOCK env var to a fixed value
-  export FIRESIM1_SSH_AUTH_SOCK=~/.ssh/firesim1-ssh-agent.sock
+	# set SSH_AUTH_SOCK env var to a fixed value
+	export FIRESIM1_SSH_AUTH_SOCK=~/.ssh/firesim1-ssh-agent.sock
 
-  # test whether $SSH_AUTH_SOCK is valid
-  ssh-add -l 2>/dev/null >/dev/null
+	# test whether $SSH_AUTH_SOCK is valid
+	ssh-add -l 2>/dev/null >/dev/null
 
-  # if not valid, then start ssh-agent using $SSH_AUTH_SOCK
-  [ $? -ge 2 ] && ssh-agent -a "$FIRESIM1_SSH_AUTH_SOCK" >/dev/null
+	# if not valid, then start ssh-agent using $SSH_AUTH_SOCK
+	[ $? -ge 2 ] && ssh-agent -a "$FIRESIM1_SSH_AUTH_SOCK" >/dev/null
 }
 
 function clone_chipyard() {
-  git clone git@github.com:ucb-bar/chipyard.git $1
+	git clone git@github.com:ucb-bar/chipyard.git $1
 }
 
 function clone_firesim() {
-  git clone git@github.com:firesim/firesim.git $1
+	git clone git@github.com:firesim/firesim.git $1
 }
 
 function remove_nvim_swapfiles() {
-  rm $HOME/.local/state/nvim/swap/*
+	rm $HOME/.local/state/nvim/swap/*
+}
+
+function kill_xfce_session() {
+   pkill -f xfce4-session
 }
 
 ############################################################################
@@ -88,58 +82,105 @@ alias ls='ls $LS_OPTIONS'
 alias l="ls -al"
 alias ll="ls -al"
 
-if [ -d $BASE_DIR ]
-then
-  alias gd="cd $BASE_DIR/coding"
-  alias vi="$BASE_DIR/nvim-linux64/bin/nvim"
-  PATH="$BASE_DIR/bin:$PATH"
-  PATH="$BASE_DIR/lua_build/lua-5.4.4/src:$PATH"
-  PATH="$PATH:$BASE_DIR/coding/pandoc-2.19.2/bin"
-  PATH="$PATH:$BASE_DIR/clangd_16.0.2/bin"
-  PATH="$BASE_DIR/coding/.local/bin:$PATH"
 
-  if [ -d "$BASE_DIR/usr/bin" ]; then
-    export PATH="$BASE_DIR/usr/bin:$PATH"
-  fi
 
-  if [ -d $BASE_DIR/go ]
-  then
-    export PATH=$BASE_DIR/go/bin:$PATH
+# Cad tools
+export UCB_VLSI_HOME=/ecad
+export ECAD_TOOLS_DIR="$UCB_VLSI_HOME/tools"
+
+
+source "$ECAD_TOOLS_DIR/xilinx/Vivado/2023.1/settings64.sh"
+source $ECAD_TOOLS_DIR/vlsi.bashrc
+
+
+# if [ -d $ECAD_TOOLS_DIR ]; then
+# source $ECAD_TOOLS_DIR/vlsi.bashrc
+# source "$ECAD_TOOLS_DIR/xilinx/Vivado/2022.1/settings64.sh"
+# fi
+
+# llano vivao_lab
+HOSTNAME=$(hostname)
+if [ $HOSTNAME = "llano" ]; then
+	source /tools/Xilinx/Vivado_Lab/2023.1/settings64.sh
+fi
+
+
+if [ -d $BASE_DIR ]; then
+	alias gd="cd $BASE_DIR/coding"
+
+	if [ -d "$BASE_DIR/nvim-linux64" ]; then
+		alias vi="$BASE_DIR/nvim-linux64/bin/nvim"
+		# export NVIM_APPNAME=lazyvim
+	fi
+	if [ -d "$BASE_DIR/firtool-1.91.0" ]; then
+		PATH="$PATH:$BASE_DIR/firtool-1.91.0/bin"
+	fi
+	PATH="$BASE_DIR/bin:$PATH"
+	PATH="$BASE_DIR/lua_build/lua-5.4.4/src:$PATH"
+	PATH="$PATH:$BASE_DIR/coding/pandoc-2.19.2/bin"
+	PATH="$PATH:$BASE_DIR/clangd_16.0.2/bin"
+
+	if [ -d "$BASE_DIR/usr/bin" ]; then
+		export PATH="$BASE_DIR/usr/bin:$PATH"
+	fi
+
+	if [ -d $BASE_DIR/go ]; then
+		export PATH=$BASE_DIR/go/bin:$PATH
+	fi
+
+  if [ -d $BASE_DIR/abc ]; then
+    export PATH=$BASE_DIR/coding/abc/abc:$PATH
   fi
 fi
 
 # Rust setup
-if [ -d $HOME/.cargo ]
-then
-  source "$HOME/.cargo/env"
+if [ -d $HOME/.cargo ]; then
+	source "$HOME/.cargo/env"
 fi
 
-# ripgrep setup
-if [ -d $HOME/ripgrep ]
-then
-  PATH=$HOME/ripgrep/target/release:$PATH
+# Local binaries
+if [ -d $HOME/.local ]; then
+	export PATH="$HOME/.local/bin:$PATH"
+
+	# NPM install dir
+	export N_PREFIX=$HOME/.local/npm
+	if [ -d $HOME/.local/npm ]; then
+		export PATH=$HOME/.local/npm/bin:$PATH
+	fi
+
+	# ripgrep
+	if [ -d $HOME/.local/ripgrep ]; then
+		PATH=$HOME/.local/ripgrep/target/release:$PATH
+	fi
+  PATH=$HOME/.local/cmake-3.28.3-linux-x86_64/bin:$PATH
 fi
 
-# Cad tools
-export ECAD_TOOLS_DIR="/ecad/tools"
-if [ -d $ECAD_TOOLS_DIR ]
-then
-  source $ECAD_TOOLS_DIR/vlsi.bashrc
+# Bazel
+export PATH=$PATH:$HOME/bin
+source $HOME/.bazel/bin/bazel-complete.bash
 
-  # VCU118
-  # source "$ECAD_TOOLS_DIR/xilinx/Vivado/2019.1/settings64.sh"
-  # Intel FPGA
-  # export PATH="$ECAD_TOOLS_DIR/altera/intelFPGA_pro/23.2/quartus/bin:$PATH"
-  # U250
-  source "$ECAD_TOOLS_DIR/xilinx/Vivado/2021.1/settings64.sh"
+if [ -d $BASE_DIR/coding/vcddiff ]; then
+  export PATH="$BASE_DIR/coding/vcddiff/target/release:$PATH"
 fi
 
-# llano vivao_lab
-HOSTNAME=$(hostname)
-if [ $HOSTNAME = "llano" ]
-then
-  source /tools/Xilinx/Vivado_Lab/2023.1/settings64.sh
-fi
+
+# Cuda
+export PATH=$PATH:/usr/local/cuda-12.2/bin
+
+# Bash completion
+source /etc/profile.d/bash_completion.sh
+
+# if [ -t 1 ]
+# then
+    # standard output is a TTY
+# bind 'set completion-ignore-case on'
+# bind 'TAB:menu-complete'
+# bind '"\e[Z": menu-complete-backward'
+# bind 'set show-all-if-ambiguous on'
+# bind 'set menu-complete-display-prefix on'
+# bind 'set colored-completion-prefix on'
+# bind 'set colored-stats off'
+# fi
 
 ############################################################################
 
@@ -159,3 +200,43 @@ unset __conda_setup
 # <<< conda initialize <<<
 
 #######################################################################
+export DENO_INSTALL="/home/eecs/joonho.whangbo/.deno"
+export PATH="$DENO_INSTALL/bin:$PATH"
+
+# Yosys
+export PATH="$PATH:/scratch/joonho.whangbo/oss-cad-suite/bin"
+
+
+
+# Rocketchip publish
+# export MILL_SONATYPE_USERNAME="jenkinss142"
+# export MILL_SONATYPE_PASSWORD='tor%$qpeo506978'
+
+# export SONATYPE_USERNAME="K8mS1Uj2"
+# export SONATYPE_PASSWORD='n+x8Hv1ZD8MldGunlQ9aghZ2rSGdtK7j0iL5hz1S5gDA'
+# export MILL_GPG_PASSPHRASE="apple123"
+# export MILL_GPG_SECRET_BASE64=$(gpg --armor --export-secret-keys 21729549294DAA74E9203BA8E32466CF84D13B0C | base64 -w0)
+
+# <server>
+# <id>${server}</id>
+# <username>K8mS1Uj2</username>
+# <password>n+x8Hv1ZD8MldGunlQ9aghZ2rSGdtK7j0iL5hz1S5gDA</password>
+# </server>
+
+
+# >>> xmake >>>
+test -f "/home/eecs/joonho.whangbo/.xmake/profile" && source "/home/eecs/joonho.whangbo/.xmake/profile"
+# <<< xmake <<<
+
+
+export GEMINI_API_KEY=AIzaSyBiJ-Zp9p6t85dpJ_rUhAk3z7YMW43raw0
+
+
+# Ollama
+export PATH="$PATH:/scratch/joonho.whangbo/bin"
+
+# Jaspergold
+
+
+export PATH="$PATH:/ecad/tools/cadence/JASPER/jasper_2023.09/bin"
+export PATH="$PATH:/scratch/joonho.whangbo/coding/firtool-1.75.0/bin"
