@@ -355,19 +355,22 @@ wk.add({
   { "<leader>gf", function() Snacks.picker.git_log_file() end, desc = "Git Log File" },
   -- terminal
   { "<leader>t", ":ToggleTerm<cr>", desc = "Toggle terminal" },
--- { "<leader>s", group = "Terminal Split" },
--- { "<leader>s|", ":ToggleTerm direction='vertical' size=130<cr>", desc = "Toggle terminal vertical split" },
--- { "<leader>sf", ":ToggleTerm direction='float'<cr>", desc = "Toggle terminal floating" },
   -- save
   { "<leader>s", ":w<cr>", desc = "Save changes" },
   -- Markdown
   { "<leader>m", group = "markdown" },
   { "<leader>md", ":RenderMarkdown disable<cr>",              desc = "Disable markdown render",     mode = "n" },
   { "<leader>mp", ":MarkdownPreview<cr>",                     desc = "Preview markdown in browser", mode = "n" },
-  -- lsp
+  -- Refactor
   { "<leader>r", group = "refactor" },
   { "<leader>rn", vim.lsp.buf.rename, desc = "Rename using LSP", mode = "n" },
   { "<leader>rs", ":s/",              desc = "Rename regex",     mode = "v" },
+  -- LSP
+  { "<leader>l", group = "LSP" },
+  { "<leader>lm", ":Mason<cr>",       desc = "Open Mason",       mode = "n" },
+  { "<leader>ls", ":LspStart",        desc = "Start server",     mode = "n" },
+  { "<leader>lx", ":LspStop",         desc = "Stop server",      mode = "n" },
+  { "<leader>lr", ":LspRestart",      desc = "Restart server",   mode = "n" },
   -- ai
   { "<leader>a", group = "ai" },
   { "<leader>ac", ":CodeCompanionChat<cr>", desc = "Chat with AI" },

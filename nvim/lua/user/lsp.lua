@@ -7,13 +7,42 @@ require("mason").setup()
 require("mason-lspconfig").setup()
 
 -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
-local servers = { 'clangd', 'metals', 'pylyzer', 'ts_ls', 'marksman', 'bashls', 'gopls', 'lua_ls', 'rust_analyzer' }
+local servers = {
+  'clangd',
+  'metals',
+  'pylyzer',
+  'ts_ls',
+  'marksman',
+  'bashls',
+  'gopls',
+  'lua_ls',
+  'rust_analyzer',
+  'harper_ls',
+  'cssls',
+  'jsonls',
+  'just',
+  'bashls',
+  'tinymist',
+}
+
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
 -- on_attach = true,
     capabilities = capabilities,
   }
 end
+
+lspconfig.harper_ls.setup {
+  settings = {
+    ["harper-ls"] = {
+      linters = {
+        SentenceCapitalization = false,
+        SpellCheck = false
+      },
+      filetypes = { "markdown" }
+    }
+  }
+}
 
 -- luasnip setup
 local luasnip = require 'luasnip'
@@ -59,3 +88,23 @@ cmp.setup {
   },
 }
 
+-- Swift LSP setup (https://chrishannah.me/using-a-swift-lsp-in-neovim/)
+-- Requirements is that you need to have SourceKit-LSP installed and in $PATH
+-- (most likely this is already there if you installed xcode)
+local swift_lsp = vim.api.nvim_create_augroup("swift_lsp", { clear = true })
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "swift" },
+  callback = function()
+    local root_dir = vim.fs.dirname(vim.fs.find({
+      "Package.swift",
+      ".git",
+    }, { upward = true })[1])
+    local client = vim.lsp.start({
+      name = "sourcekit-lsp",
+      cmd = { "sourcekit-lsp" },
+      root_dir = root_dir,
+    })
+    vim.lsp.buf_attach_client(0, client)
+  end,
+  group = swift_lsp,
+})
