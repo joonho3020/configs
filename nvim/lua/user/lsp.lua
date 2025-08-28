@@ -4,7 +4,7 @@ local lspconfig = require('lspconfig')
 
 -- Mason setup
 require("mason").setup()
-require("mason-lspconfig").setup()
+-- require("mason-lspconfig").setup()
 
 -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
 local servers = {
@@ -17,11 +17,9 @@ local servers = {
   'gopls',
   'lua_ls',
   'rust_analyzer',
-  'harper_ls',
   'cssls',
   'jsonls',
   'just',
-  'bashls',
   'tinymist',
 }
 
@@ -31,18 +29,6 @@ for _, lsp in ipairs(servers) do
     capabilities = capabilities,
   }
 end
-
-lspconfig.harper_ls.setup {
-  settings = {
-    ["harper-ls"] = {
-      linters = {
-        SentenceCapitalization = false,
-        SpellCheck = false
-      },
-      filetypes = { "markdown" }
-    }
-  }
-}
 
 -- luasnip setup
 local luasnip = require 'luasnip'
@@ -107,4 +93,15 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.lsp.buf_attach_client(0, client)
   end,
   group = swift_lsp,
+})
+
+-- [Adding other filetypes](https://github.com/neovim/nvim-lspconfig/issues/3186)
+lspconfig.ltex.setup({
+  capabilities = capabilities,
+  filetypes = { "latex", "typst", "typ", "bib", "markdown", "plaintex", "tex" },
+  settings = {
+    ltex = {
+      enabled = { "latex", "typst", "typ", "bib", "markdown", "plaintex", "tex" },
+    }
+  }
 })

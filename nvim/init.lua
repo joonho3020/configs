@@ -1,42 +1,3 @@
-if vim.g.vscode then
-
-  local keymap = vim.keymap.set
-  local opts = { noremap = true, silent = true }
-
-  -- remap leader key
-  keymap("n", "<Space>", "", opts)
-  vim.g.mapleader = " "
-  vim.g.maplocalleader = " "
-
-  -- yank to system clipboard
-  keymap({"n", "v"}, "<leader>y", '"+y', opts)
-
-  -- paste from system clipboard
-  keymap({"n", "v"}, "<leader>p", '"+p', opts)
-
-  -- better indent handling
-  keymap("v", "<", "<gv", opts)
-  keymap("v", ">", ">gv", opts)
-
-  -- Better window navigation
-  keymap('n', '<C-h>', "<cmd>lua require('vscode').action('workbench.action.navigateLeft')<CR>")
-  keymap('n', '<C-j>', "<cmd>lua require('vscode').action('workbench.action.navigateDown')<CR>")
-  keymap('n', '<C-k>', "<cmd>lua require('vscode').action('workbench.action.navigateUp')<CR>")
-  keymap('n', '<C-l>', "<cmd>lua require('vscode').action('workbench.action.navigateRight')<CR>")
-
-  -- Toggle explorer
-  keymap('n', '<leader>e', "<cmd>lua require('vscode').action('workbench.action.toggleSidebarVisibility')<CR>")
-
-  -- general keymaps
-  keymap({"n", "v"}, "<leader>t", "<cmd>lua require('vscode').action('workbench.action.terminal.toggleTerminal')<CR>")
-  keymap({"n", "v"}, "<leader>ff", "<cmd>lua require('vscode').action('workbench.action.quickOpen')<CR>")
-
-  -- Faster scroll
-  keymap('n', '<C-e>', "<cmd>lua require('vscode').action('editor.action.scrollDownHover')<CR>")
-  keymap('n', '<C-y>', "<cmd>lua require('vscode').action('editor.action.scrollUpHover')<CR>")
-
-else
-
 -- Initialize lazy.nvim package manager
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -57,9 +18,6 @@ require("lazy").setup({
   'nvim-lua/plenary.nvim',
   { 'nvim-telescope/telescope.nvim', tag = '0.1.4' },
   'folke/tokyonight.nvim',
-  'sainnhe/sonokai',
-  'rebelot/kanagawa.nvim',
-  'cocopon/iceberg.vim',
   'andymass/vim-matchup',
   'machakann/vim-highlightedyank',
   'junegunn/vim-slash',
@@ -117,15 +75,6 @@ require("lazy").setup({
   {
     "folke/which-key.nvim",
     event = "VeryLazy",
-  },
-  {
-    "rachartier/tiny-inline-diagnostic.nvim",
-    event = "VeryLazy", -- Or `LspAttach`
-    priority = 1000, -- needs to be loaded in first
-    config = function()
-      require('tiny-inline-diagnostic').setup()
-      vim.diagnostic.config({ virtual_text = true }) -- Only if needed in your configuration, if you already have native LSP diagnostics
-    end
   },
   {
     'MeanderingProgrammer/render-markdown.nvim',
@@ -274,6 +223,9 @@ vim.api.nvim_create_user_command('Rfinder',
  {}
 )
 
+-- Show LSP diagnostics
+vim.diagnostic.config({ virtual_text = true })
+
 --------------------------------------------------------------
 -- Key mappings
 --------------------------------------------------------------
@@ -321,7 +273,6 @@ require "user.tokyonight"
 require "user.nvimtree"
 require "user.noice"
 require "user.snacks"
-
 require("scrollbar").setup()
 require('lualine').setup {
   options = {
@@ -357,8 +308,9 @@ wk.add({
   { "<leader>t", ":ToggleTerm<cr>", desc = "Toggle terminal" },
   -- save
   { "<leader>s", ":w<cr>", desc = "Save changes" },
-  -- Markdown
-  { "<leader>m", group = "markdown" },
+  -- Markdown and other writing
+  { "<leader>m", group = "Markup languages (markdown, typst...)" },
+  { "<leader>mr", ":RenderMarkdown<cr>",                      desc = "Enable markdown render",      mode = "n" },
   { "<leader>md", ":RenderMarkdown disable<cr>",              desc = "Disable markdown render",     mode = "n" },
   { "<leader>mp", ":MarkdownPreview<cr>",                     desc = "Preview markdown in browser", mode = "n" },
   -- Refactor
@@ -367,19 +319,20 @@ wk.add({
   { "<leader>rs", ":s/",              desc = "Rename regex",     mode = "v" },
   -- LSP
   { "<leader>l", group = "LSP" },
+  { "<leader>la", function() vim.lsp.buf.code_action() end, desc = "LSP Code Actions", mode = "n" },
   { "<leader>lm", ":Mason<cr>",       desc = "Open Mason",       mode = "n" },
-  { "<leader>ls", ":LspStart",        desc = "Start server",     mode = "n" },
-  { "<leader>lx", ":LspStop",         desc = "Stop server",      mode = "n" },
-  { "<leader>lr", ":LspRestart",      desc = "Restart server",   mode = "n" },
+  { "<leader>ls", ":LspStart<cr>",    desc = "Start server",     mode = "n" },
+  { "<leader>lx", ":LspStop<cr>",     desc = "Stop server",      mode = "n" },
+  { "<leader>lr", ":LspRestart<cr>",  desc = "Restart server",   mode = "n" },
+  { "<leader>li", ":LspInfo<cr>",     desc = "LSP info",         mode = "n" },
+  { "<leader>lu", ":LspUninstall",    desc = "Uninstall LSP",    mode = "n" },
   -- ai
   { "<leader>a", group = "ai" },
   { "<leader>ac", ":CodeCompanionChat<cr>", desc = "Chat with AI" },
   { "<leader>aa", ":CodeCompanionAction<cr>", desc = "Open actions pane to interact with AI" },
-  -- Etc
+  -- etc
   { "<leader>o",  ":Rfinder<cr>",                             desc = "Mac \"open\" on the buffer",  mode = "n" },
   { "<leader>e",  "<cmd>lua vim.diagnostic.open_float()<cr>", desc = "Show diagnostic",             mode = "n" },
   { "<leader>x",  ":NoiceDismiss<cr>",                        desc = "Dismiss noice messages",      mode = "n" },
   { "<leader>h", hidden = true }, -- hide this keymap
 })
-
-end
