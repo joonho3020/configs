@@ -1,6 +1,5 @@
 -- Add additional capabilities supported by nvim-cmp
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
-local lspconfig = require('lspconfig')
 
 -- Mason setup
 require("mason").setup()
@@ -23,11 +22,16 @@ local servers = {
   'tinymist',
 }
 
+local function configure_server(name, opts)
+  vim.lsp.config(name, opts or {})
+  vim.lsp.enable(name)
+end
+
 for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
--- on_attach = true,
+  configure_server(lsp, {
+    -- on_attach = true,
     capabilities = capabilities,
-  }
+  })
 end
 
 -- luasnip setup
@@ -96,12 +100,12 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 -- [Adding other filetypes](https://github.com/neovim/nvim-lspconfig/issues/3186)
-lspconfig.ltex.setup({
+configure_server('ltex', {
   capabilities = capabilities,
-  filetypes = { "latex", "typst", "typ", "bib", "markdown", "plaintex", "tex" },
+  filetypes = { "latex", "typst", "typ", "bib", "markdown", "plaintex", "tex", "quarto" },
   settings = {
     ltex = {
-      enabled = { "latex", "typst", "typ", "bib", "markdown", "plaintex", "tex" },
+      enabled = { "latex", "typst", "typ", "bib", "markdown", "plaintex", "tex", "quarto" },
     }
   }
 })

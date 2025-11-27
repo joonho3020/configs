@@ -12,12 +12,16 @@ if not vim.loop.fs_stat(lazypath) then
 end
 
 vim.opt.rtp:prepend(lazypath)
-
 require("lazy").setup({
   { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
   'nvim-lua/plenary.nvim',
   { 'nvim-telescope/telescope.nvim', tag = '0.1.4' },
-  'folke/tokyonight.nvim',
+  {
+    'folke/tokyonight.nvim',
+    config = function()
+      vim.cmd("colorscheme tokyonight-night")
+    end
+  },
   'andymass/vim-matchup',
   'machakann/vim-highlightedyank',
   'junegunn/vim-slash',
@@ -79,7 +83,11 @@ require("lazy").setup({
   {
     'MeanderingProgrammer/render-markdown.nvim',
     dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
-    opts = {},
+    opts = {
+      code = {
+        enabled = true,
+      },
+    }
   },
   {
     "iamcco/markdown-preview.nvim",
@@ -95,48 +103,50 @@ require("lazy").setup({
     ft = "markdown",
     opts = {},
   },
+-- {
+-- "olimorris/codecompanion.nvim",
+-- dependencies = {
+-- "nvim-lua/plenary.nvim",
+-- "nvim-treesitter/nvim-treesitter",
+-- },
+-- opts = {
+-- strategies = {
+-- chat = {
+-- adapter = 'deepseek',
+-- },
+-- inline = {
+-- adapter = "deepseek",
+-- },
+-- },
+-- adapters = {
+-- deepseek = function()
+-- return require('codecompanion.adapters').extend('ollama', {
+-- name = 'deepseek', -- Give this adapter a different name to differentiate it from the default ollama adapter
+-- schema = {
+-- model = {
+-- default = 'deepseek-r1:7b',
+-- },
+-- },
+-- })
+-- end,
+-- },
+-- opts = {
+-- log_level = 'DEBUG',
+-- },
+-- display = {
+-- diff = {
+-- enabled = true,
+-- close_chat_at = 240, -- Close an open chat buffer if the total columns of your display are less than...
+-- layout = 'vertical', -- vertical|horizontal split for default provider
+-- opts = { 'internal', 'filler', 'closeoff', 'algorithm:patience', 'followwrap', 'linematch:120' },
+-- provider = 'default', -- default|mini_diff
+-- },
+-- },
+-- },
+-- },
   {
-    "olimorris/codecompanion.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-treesitter/nvim-treesitter",
-    },
-    opts = {
-      strategies = {
-        -- Change the default chat adapter
-        chat = {
-          adapter = 'deepseek',
-        },
-        inline = {
-          adapter = "deepseek",
-        },
-      },
-      adapters = {
-        deepseek = function()
-          return require('codecompanion.adapters').extend('ollama', {
-            name = 'deepseek', -- Give this adapter a different name to differentiate it from the default ollama adapter
-            schema = {
-              model = {
-                default = 'deepseek-r1:7b',
-              },
-            },
-          })
-        end,
-      },
-      opts = {
-        log_level = 'DEBUG',
-      },
-      display = {
-        diff = {
-          enabled = true,
-          close_chat_at = 240, -- Close an open chat buffer if the total columns of your display are less than...
-          layout = 'vertical', -- vertical|horizontal split for default provider
-          opts = { 'internal', 'filler', 'closeoff', 'algorithm:patience', 'followwrap', 'linematch:120' },
-          provider = 'default', -- default|mini_diff
-        },
-      },
-    },
-  },
+    "pimalaya/himalaya-vim"
+  }
 })
 
 -- General Settings
@@ -179,7 +189,6 @@ vim.cmd [[
   set autowrite
   set termguicolors
   set foldmethod=manual
-  colorscheme tokyonight-night
   highlight WinSeparator guifg=#394b70 guibg=None
 ]]
 
@@ -262,6 +271,9 @@ vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
 
 vim.notify = require("notify")
 
+-- For mac, add the yanked block to system clipboard as well
+vim.opt.clipboard:append("unnamedplus")
+
 --------------------------------------------------------------------------------------------
 -- Plugins
 --------------------------------------------------------------------------------------------
@@ -273,6 +285,7 @@ require "user.tokyonight"
 require "user.nvimtree"
 require "user.noice"
 require "user.snacks"
+-- require "user.himalaya"
 require("scrollbar").setup()
 require('lualine').setup {
   options = {
