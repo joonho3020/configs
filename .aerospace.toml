@@ -1,0 +1,106 @@
+# Reference: https://github.com/i3/i3/blob/next/etc/config
+
+start-at-login = true
+
+config-version = 2
+
+# In i3, all workspaces are phantom
+persistent-workspaces = []
+
+# i3 doesn't have "normalizations" feature that why we disable them here.
+# But the feature is very helpful.
+# Normalizations eliminate all sorts of weird tree configurations that don't make sense.
+# Give normalizations a chance and enable them back.
+enable-normalization-flatten-containers = false
+enable-normalization-opposite-orientation-for-nested-containers = false
+
+# Mouse follows focus when focused monitor changes
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+
+# exec-on-workspace-change = [
+# '/bin/bash',
+# '-c',
+# 'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE PREV_WORKSPACE=$AEROSPACE_PREV_WORKSPACE && ~/.config/sketchybar/plugins/update_workspace_icons.sh'
+# ]
+
+[gaps]
+inner.horizontal = 0
+inner.vertical = 0
+outer.top = [{ monitor."main" = 24 }, 24]
+outer.left = 0
+outer.bottom = 0
+outer.right = 0
+
+[mode.main.binding]
+    # See: https://nikitabobko.github.io/AeroSpace/goodies#open-a-new-window-with-applescript
+    # alt-enter = '''exec-and-forget osascript -e '
+    # tell application "Terminal"
+    # do script
+    # activate
+    # end tell'
+    # '''
+
+    # i3 wraps focus by default
+    ctrl-alt-h =         'focus --boundaries-action wrap-around-the-workspace left'
+    ctrl-alt-j =         'focus --boundaries-action wrap-around-the-workspace down'
+    ctrl-alt-k =         'focus --boundaries-action wrap-around-the-workspace up'
+    ctrl-alt-l =         'focus --boundaries-action wrap-around-the-workspace right'
+
+    # Not supported, because this command is redundant in AeroSpace mental model.
+    # See: https://nikitabobko.github.io/AeroSpace/guide#floating-windows
+    #alt-space = 'focus toggle_tiling_floating'
+
+    # `focus parent`/`focus child` are not yet supported, and it's not clear whether they
+    # should be supported at all https://github.com/nikitabobko/AeroSpace/issues/5
+    # alt-a = 'focus parent'
+
+    cmd-1 = 'workspace 1'
+    cmd-2 = 'workspace 2'
+    cmd-3 = 'workspace 3'
+    cmd-4 = 'workspace 4'
+    cmd-5 = 'workspace 5'
+    cmd-6 = 'workspace 6'
+    cmd-7 = 'workspace 7'
+    cmd-8 = 'workspace 8'
+    cmd-9 = 'workspace 9'
+    cmd-0 = 'workspace 10'
+
+    ctrl-alt-1 = 'move-node-to-workspace 1'
+    ctrl-alt-2 = 'move-node-to-workspace 2'
+    ctrl-alt-3 = 'move-node-to-workspace 3'
+    ctrl-alt-4 = 'move-node-to-workspace 4'
+    ctrl-alt-5 = 'move-node-to-workspace 5'
+    ctrl-alt-6 = 'move-node-to-workspace 6'
+    ctrl-alt-7 = 'move-node-to-workspace 7'
+    ctrl-alt-8 = 'move-node-to-workspace 8'
+    ctrl-alt-9 = 'move-node-to-workspace 9'
+    ctrl-alt-0 = 'move-node-to-workspace 10'
+
+    ctrl-alt-r = 'reload-config'
+    ctrl-alt-m = 'move-workspace-to-monitor --wrap-around prev'
+
+
+[mode.resize.binding]
+    h = 'resize width -50'
+    j = 'resize height +50'
+    k = 'resize height -50'
+    l = 'resize width +50'
+    enter = 'mode main'
+    esc = 'mode main'
+
+[mode.service.binding]
+    [[on-window-detected]]
+    if.app-id = 'com.googlecode.iterm2'
+    run = ['move-node-to-workspace 1']
+
+    [[on-window-detected]]
+    if.app-id = 'com.apple.Safari'
+    run = ['move-node-to-workspace 2']
+
+    [[on-window-detected]]
+    if.app-id = 'com.openai.chat'
+    run = ['move-node-to-workspace 3']
+
+    [[on-window-detected]]
+    if.app-id = 'com.apple.mail'
+    run = ['move-node-to-workspace 4']
