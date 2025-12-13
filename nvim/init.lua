@@ -16,12 +16,10 @@ require("lazy").setup({
   { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
   'nvim-lua/plenary.nvim',
   { 'nvim-telescope/telescope.nvim', tag = '0.1.4' },
-  {
-    'folke/tokyonight.nvim',
-    config = function()
-      vim.cmd("colorscheme tokyonight-night")
-    end
-  },
+  'folke/tokyonight.nvim',
+  'navarasu/onedark.nvim',
+  'rebelot/kanagawa.nvim',
+  'EdenEast/nightfox.nvim',
   'andymass/vim-matchup',
   'machakann/vim-highlightedyank',
   'junegunn/vim-slash',
@@ -285,13 +283,18 @@ require "user.tokyonight"
 require "user.nvimtree"
 require "user.noice"
 require "user.snacks"
--- require "user.himalaya"
+require "user.himalaya"
 require("scrollbar").setup()
 require('lualine').setup {
   options = {
     theme = 'tokyonight'
   }
 }
+
+
+
+vim.cmd("colorscheme tokyonight")
+
 
 local wk = require("which-key")
 wk.add({
