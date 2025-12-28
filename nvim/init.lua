@@ -283,7 +283,7 @@ require "user.telescope"
 require "user.metals"
 require "user.lsp"
 require "user.bufferline"
-require "user.tokyonight"
+local tokyonight = require "user.tokyonight"
 require "user.nvimtree"
 require "user.noice"
 require "user.snacks"
@@ -351,6 +351,11 @@ wk.add({
   { "<leader>a", group = "ai" },
   { "<leader>ac", ":CodeCompanionChat<cr>", desc = "Chat with AI" },
   { "<leader>aa", ":CodeCompanionAction<cr>", desc = "Open actions pane to interact with AI" },
+  -- colorscheme
+  { "<leader>c", group = "colorscheme" },
+  { "<leader>c-", tokyonight.decrease_brightness, desc = "Darken background" },
+  { "<leader>c+", tokyonight.increase_brightness, desc = "Lighten background" },
+  { "<leader>c=", tokyonight.increase_brightness, desc = "Lighten background" },
   -- etc
   { "<leader>o",  ":Rfinder<cr>",                             desc = "Mac \"open\" on the buffer",  mode = "n" },
   { "<leader>e",  "<cmd>lua vim.diagnostic.open_float()<cr>", desc = "Show diagnostic",             mode = "n" },
