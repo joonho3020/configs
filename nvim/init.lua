@@ -20,6 +20,10 @@ require("lazy").setup({
   'navarasu/onedark.nvim',
   'rebelot/kanagawa.nvim',
   'EdenEast/nightfox.nvim',
+  'ribru17/bamboo.nvim',
+  'rose-pine/neovim',
+  'AlexvZyl/nordic.nvim',
+  "tiagovla/tokyodark.nvim",
   'andymass/vim-matchup',
   'machakann/vim-highlightedyank',
   'junegunn/vim-slash',
@@ -342,6 +346,7 @@ wk.add({
   { "<leader>lr", ":LspRestart<cr>",  desc = "Restart server",   mode = "n" },
   { "<leader>li", ":LspInfo<cr>",     desc = "LSP info",         mode = "n" },
   { "<leader>lu", ":LspUninstall",    desc = "Uninstall LSP",    mode = "n" },
+  { "<leader>lt", toggle_ltex,        desc = "Toggle ltex LSP",  mode = "n" },
   -- ai
   { "<leader>a", group = "ai" },
   { "<leader>ac", ":CodeCompanionChat<cr>", desc = "Chat with AI" },

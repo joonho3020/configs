@@ -1,22 +1,28 @@
 
 require("tokyonight").setup({
-  -- your configuration comes here
-  -- or leave it empty to use the default settings
   lazy = false,
-  style = "night", -- The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
+  style = "night",
   styles = {
-    -- Style to be applied to different syntax groups
-    -- Value is any valid attr-list value for `:help nvim_set_hl`
     comments = { italic = true },
-    keywords = { italic = true },
-    functions = {},
+    keywords = { italic = false },
+    functions = { italic = false },
     variables = {},
-    -- Background styles. Can be "dark", "transparent" or "normal"
-    sidebars = "dark", -- style for sidebars, see below
-    floats = "dark", -- style for floating windows
+    sidebars = "dark",
+    floats = "dark",
   },
   on_colors = function(colors)
-    colors.fg = "#CFE2F3"
+    colors.bg = "#171821"
+    colors.bg_dark1 = "#101010"
     colors.border = "#101010"
+    colors.fg = "#CFE2F3"
   end,
+  on_highlights = function(hl, c)
+     hl.NvimTreeNormal = { bg = "#0d0e14" }
+     hl.NvimTreeWinSeparator = { fg = "#7dcfff", bg = "#0d0e14" }
+  end,
+  cache = true,
+  plugins = {
+    all = package.loaded.lazy == nil,
+    auto = true,
+  },
 })

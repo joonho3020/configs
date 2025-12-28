@@ -100,7 +100,8 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 -- [Adding other filetypes](https://github.com/neovim/nvim-lspconfig/issues/3186)
-configure_server('ltex', {
+-- Configure ltex but don't enable by default (use <leader>lt to toggle)
+vim.lsp.config('ltex', {
   capabilities = capabilities,
   filetypes = { "latex", "typst", "typ", "bib", "markdown", "plaintex", "tex", "quarto" },
   settings = {
@@ -109,3 +110,21 @@ configure_server('ltex', {
     }
   }
 })
+
+-- Toggle function for ltex LSP
+_G.toggle_ltex = function()
+  local clients = vim.lsp.get_clients({ name = "ltex" })
+  if #clients > 0 then
+    vim.lsp.stop_client(clients)
+    vim.notify("ltex LSP stopped", vim.log.levels.INFO)
+  else
+    vim.lsp.enable('ltex')
+    -- Attach to current buffer if it matches ltex filetypes
+    local ft = vim.bo.filetype
+    local ltex_filetypes = { latex = true, typst = true, typ = true, bib = true, markdown = true, plaintex = true, tex = true, quarto = true }
+    if ltex_filetypes[ft] then
+      vim.cmd('LspStart ltex')
+    end
+    vim.notify("ltex LSP started", vim.log.levels.INFO)
+  end
+end
