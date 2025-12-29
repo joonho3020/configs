@@ -26,7 +26,7 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 [gaps]
 inner.horizontal = 0
 inner.vertical = 0
-outer.top = [{ monitor."main" = 24 }, 24]
+outer.top = [{ monitor."main" = 0 }, 0]
 outer.left = 0
 outer.bottom = 0
 outer.right = 0
@@ -104,3 +104,11 @@ outer.right = 0
     [[on-window-detected]]
     if.app-id = 'com.apple.mail'
     run = ['move-node-to-workspace 4']
+
+    [[on-window-detected]]
+    if.app-id = 'com.kakao.KakaoTalkMac'
+    run = ['move-node-to-workspace 5']
+
+    [[on-window-detected]]
+    if.app-id = 'com.tinyspec.slackkmacgap'
+    run = ['move-node-to-workspace 6']
